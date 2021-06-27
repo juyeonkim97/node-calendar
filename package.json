@@ -17,10 +17,8 @@
   },
   "homepage": "https://github.com/juyeonkim97/node-calendar#readme",
   "dependencies": {
-    "@fullcalendar/core": "^5.8.0",
-    "@fullcalendar/daygrid": "^5.8.0",
-    "@fullcalendar/interaction": "^5.8.0",
     "bootstrap": "^5.0.2",
+    "bootstrap-timepicker": "^0.5.2",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "fullcalendar": "^5.8.0",
