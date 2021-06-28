@@ -1,5 +1,7 @@
 const express = require('express'), //웹 서버
-     routes = require('./routes');
+     routes = require('./routes'),
+    mysql = require('mysql'),
+    db=require('./public/javascripts/database');
      
 const app = express()
 app.use(express.json()); //밑에 줄까지 body-parser
@@ -12,6 +14,15 @@ app.engine('html', require('ejs').renderFile); //html 형식으로 ejs 쓰겠다
 
 // 라우팅
 app.get('/', routes.index);
+
+//db 연결 테스트
+app.get('/test', (req, res) => {
+    db.query('SELECT * from test', (err, results) => {
+      if (err) throw error;
+      console.log('test query: ', results);
+      res.send(results);
+    });
+  });
 
 app.listen(3000, () => {
     console.debug('App listening on :3000');
