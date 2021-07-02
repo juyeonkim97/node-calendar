@@ -1,7 +1,8 @@
-exports.index = (req, res) => {
+const express=require('express');
+const router=express.Router();
+
+router.get('/',(req, res) => {
     res.render('index',{title:'A'});
-};
-//로그인 페이지
-exports.login = (req, res) => {
-    res.render('login');
-};
+});
+
+module.exports=router;

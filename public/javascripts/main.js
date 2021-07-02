@@ -13,7 +13,3 @@ $(document).ready(function(){
     });
     calendar.render();
 });
-
-$('#sign').on('click', function () { // 회원가입 창으로 넘어가기
-    $.get('/test')
-});

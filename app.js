@@ -1,6 +1,7 @@
 const express = require('express'), //웹 서버
-     routes = require('./routes'),
-     event=require('./routes/event'),
+     indexRouter = require('./routes'),
+     userRouter=require('./routes/user'),
+     //eventRouter=require('./routes/event'),
     mysql = require('mysql');
 
      
@@ -14,18 +15,9 @@ app.set('view engine', 'ejs'); //뷰 엔진으로 ejs 쓰겠다
 app.engine('html', require('ejs').renderFile); //html 형식으로 ejs 쓰겠다.
 
 // 라우팅
-app.get('/', routes.index);
-app.get('/login',routes.login); //로그인 페이지 이동
-app.post('/add', event.add);
-
-//db 연결 테스트
-/* app.get('/test', (req, res) => {
-    db.query('SELECT * from test', (err, results) => {
-      if (err) throw error;
-      console.log('test query: ', results);
-      res.send(results);
-    });
-  }); */
+app.use('/',indexRouter);
+app.use('/user',userRouter);
+//app.use('/event',eventRouter);
 
 app.listen(3000, () => {
     console.debug('App listening on :3000');

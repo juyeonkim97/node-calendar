@@ -1,6 +1,6 @@
 //일정 추가
-var eventModal = $('#eventModal');
-var modalTitle = $('.modal-title');
+var addEventModal = $('#addEventModal');
+var calendarModalTitle = $('.calendar.modal-title');
 var editAllDay = $('#edit-allDay');
 var editTitle = $('#edit-title');
 var editStart = $('#edit-start');
@@ -12,19 +12,18 @@ var addBtnContainer = $('.modalBtnContainer-addEvent');
 var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
 
 var addEvent = function (info) {
-    modalTitle.html('새로운 일정');
+    calendarModalTitle.html('새로운 일정');
     editTitle.val('');
     editStart.val(info.startStr);
     editEnd.val(info.endStr);
     editDesc.val('');
-
     addBtnContainer.show();
     modifyBtnContainer.hide();
-    eventModal.modal('show'); //일정 추가 모달 show
+    addEventModal.modal('show'); //일정 추가 모달 show
 
     //새로운 일정 저장버튼 클릭
-    $('#save-event').unbind();
-    $('#save-event').on('click', function () {
+    $('#addEvent').unbind();
+    $('#addEvent').on('click', function () {
         var eventData = {
             title: editTitle.val(),
             start: editStart.val(),
@@ -61,7 +60,7 @@ var addEvent = function (info) {
         //$("#calendar").fullCalendar('renderEvent', eventData, true); */
         //eventModal.find('input, textarea').val('');
         //editAllDay.prop('checked', false);
-        eventModal.modal('hide');
+        addEventModall.modal('hide');
         //새로운 일정 저장
         /* $.ajax('/add', {
             'method': 'POST',
