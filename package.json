@@ -18,11 +18,11 @@
   "homepage": "https://github.com/juyeonkim97/node-calendar#readme",
   "dependencies": {
     "bootstrap": "^5.0.2",
-    "crypto-js": "^4.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "fullcalendar": "^5.8.0",
     "jquery": "^3.6.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5"
   }
 }
