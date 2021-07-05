@@ -43,23 +43,26 @@
                     <h5 class="modal-title" id="exampleModalLabel">LOGIN</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Id</span>
-                        <input type="text" class="form-control" id="id">
+                <form action="/user/login" method="POST">
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+                            <input type="password" class="form-control" name="password" required>
+                        </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
-                        <input type="text" class="form-control" id="password">
+                    <div class="modal-footer">
+                        <a class="btn btn-secondary" href="/user/join">Sign up</a>
+                        <button type="submit" class="btn btn-primary">Login</button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-secondary" href="/user/join">Sign up</a>
-                    <button type="button" class="btn btn-primary">Login</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </body>
 <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+
 </html>

@@ -3,9 +3,27 @@ const express = require('express'),
 const router = express.Router();
 const db = require('./database.js');
 
+//회원가입 페이지 이동
 router.get('/join', (req, res) => {
     res.render('join');
 });
+
+//회원가입 시 이메일 중복 체크
+router.post('/emailCheck',(req,res)=>{
+    const email=req.body.email;
+    var message='';
+    db.query('SELECT EMAIL FROM user WHERE `EMAIL`=?',email, (err, result) => {
+        if (err) console.log(err)
+        if (result.length > 0) {
+            message="fail";
+        }else{
+            message="success";
+        }
+        res.send({'message':message});
+    });  
+});
+
+//회원가입 처리
 router.post('/join', (req, res, next) => {
     const {email,password,nickname}=req.body;
     //const param = [req.body.email, req.body.password, req.body.nickname];
@@ -27,17 +45,11 @@ router.post('/join', (req, res, next) => {
     });
     res.redirect('/');
 });
-router.post('/emailCheck',(req,res)=>{
-    const email=req.body.email;
-    var message='';
-    db.query('SELECT EMAIL FROM user WHERE `EMAIL`=?',email, (err, result) => {
-        if (err) console.log(err)
-        if (result.length > 0) {
-            message="fail";
-        }else{
-            message="success";
-        }
-        res.send({'message':message});
-    });  
-});
+
+//로그인 처리
+router.post('/login',(req,res)=>{
+    const {email,password}=req.body;
+    console.log(email);
+})
+
 module.exports = router;
