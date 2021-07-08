@@ -24,11 +24,17 @@
                     <button class="btn btn-outline-success me-3" type="submit">Search</button>
                 </form>
                 <ul class="navbar-nav mb-2 mb-lg-0">
+                    <% if(isAuthenticated){ %>
+                    <li class="nav-item">
+                        <a href="/user/logout" class="btn btn-outline-secondary">Logout</a>
+                    </li>
+                    <% } else { %>
                     <li class="nav-item">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
                             data-bs-target="#loginModal">Login</button>
                     </li>
+                    <% } %>
                 </ul>
 
             </div>

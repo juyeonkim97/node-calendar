@@ -1,8 +1,8 @@
 const express = require('express'),
-    crypto = require('crypto');
-const passport = require('passport');
-const router = express.Router();
-const db = require('./database.js');
+    crypto = require('crypto'),
+    passport = require('passport'),
+    router = express.Router(),
+    db = require('./database.js');
 
 //회원가입 페이지 이동
 router.get('/join', (req, res) => {
@@ -53,13 +53,21 @@ router.post('/join', (req, res, next) => {
     res.redirect('/');
 });
 
+
 //로그인 처리
-router.post('/login', (req, res) => {
-    const {
-        email,
-        password
-    } = req.body;
-    
+router.post('/login', (req, res, next) => {
+        next();
+    },
+    passport.authenticate("local-login", {
+        failureRedirect: '/',
+        successRedirect: '/',
+        failureFlash:true
+    }));
+
+//로그아웃
+router.get('/logout', function (req, res,next) {
+    req.logout();
+    res.redirect('/');
 });
 
 module.exports = router;
