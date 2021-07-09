@@ -55,17 +55,35 @@ router.post('/join', (req, res, next) => {
 
 
 //로그인 처리
-router.post('/login', (req, res, next) => {
-        next();
-    },
+/* router.post('/login',
     passport.authenticate("local-login", {
         failureRedirect: '/',
         successRedirect: '/',
-        failureFlash:true
+        failureFlash: true
+    })
+); */
+
+router.post('/login',
+    passport.authenticate("local-login", (req, res) => {
+        console.log(req.flash());
+        res.render("index", {
+            message: true
+        });
     }));
 
+/* //로그인 처리
+router.get('/loginAlert',(req,res)=>{
+    msg=req.flash();
+    console.log(msg.error[0]);
+    console.log(!msg);
+    if(msg){
+        alert(msg.error[0]) //얼럿창 띄우고
+    }
+}
+); */
+
 //로그아웃
-router.get('/logout', function (req, res,next) {
+router.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect('/');
 });

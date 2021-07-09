@@ -35,6 +35,11 @@
                             data-bs-target="#loginModal">Login</button>
                     </li>
                     <% } %>
+                    <% if(error_messages){ %>
+                    <li class="nav-item">
+                        <p><%= error_messages %></p>
+                    </li>
+                    <% } %>
                 </ul>
 
             </div>

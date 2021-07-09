@@ -3,12 +3,14 @@ const express = require('express'), //웹 서버
     userRouter = require('./routes/user'),
     //eventRouter=require('./routes/event'),
     mysql = require('mysql'),
+    flash = require('connect-flash'),
     session = require('express-session'), // 세션 설정
     passport = require('passport'),
     passportConfig = require('./routes/passport'); // 여기
 
 
 const app = express()
+
 app.use
 app.use(express.json()); //밑에 줄까지 body-parser
 app.use(express.urlencoded({
@@ -19,7 +21,7 @@ app.use(express.static(__dirname + '/node_modules'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs'); //뷰 엔진으로 ejs 쓰겠다
 app.engine('html', require('ejs').renderFile); //html 형식으로 ejs 쓰겠다.
-app.use(passport.initialize());
+
 
 app.use(session({
     secret: 'secret',
@@ -29,12 +31,17 @@ app.use(session({
 app.use(passport.initialize()); // passport 구동, 초기화
 app.use(passport.session()); // 세션 연결
 
+app.use(flash());
 // Custom Middlewares // 3
-app.use(function (req, res, next) {
+app.use(function (req, res, next) { //공통로직 부분
+    res.locals.success_messages = req.flash('success_messages');
+    res.locals.error_messages = req.flash('error_messages');
     res.locals.isAuthenticated = req.isAuthenticated();
     res.locals.currentUser = req.user;
     next();
 })
+
+
 
 // 라우팅
 app.use('/', indexRouter);

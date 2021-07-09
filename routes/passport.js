@@ -14,15 +14,15 @@ passport.deserializeUser((user, done) => { // 매개변수 user는 serializeUser
 passport.use('local-login', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
-    passReqToCallback: true,
+    passReqToCallback : true,
     session: true
 }, (req, email, password, done) => {
     const sql = 'SELECT * FROM user WHERE EMAIL=?';
     db.query(sql, email, (err, result) => {
         if (err) return done(err);
         if (!result[0]) { //값이 없으면
-            return done(null, false, {
-                'message': '해당하는 이메일이 없습니다.'
+            return done(null, false,{
+                'message': '비밀번호를 확인해주세요.'
             });
         };
         const user = result[0];
