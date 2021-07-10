@@ -34,8 +34,7 @@ app.use(passport.session()); // 세션 연결
 app.use(flash());
 // Custom Middlewares // 3
 app.use(function (req, res, next) { //공통로직 부분
-    res.locals.success_messages = req.flash('success_messages');
-    res.locals.error_messages = req.flash('error_messages');
+    res.locals.errorMsg = req.flash('errorMsg');
     res.locals.isAuthenticated = req.isAuthenticated();
     res.locals.currentUser = req.user;
     next();

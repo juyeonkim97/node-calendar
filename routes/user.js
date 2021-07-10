@@ -53,34 +53,14 @@ router.post('/join', (req, res, next) => {
     res.redirect('/');
 });
 
-
-//로그인 처리
-/* router.post('/login',
+//로그인
+router.post('/login',
     passport.authenticate("local-login", {
-        failureRedirect: '/',
         successRedirect: '/',
+        failureRedirect: '/',
         failureFlash: true
     })
-); */
-
-router.post('/login',
-    passport.authenticate("local-login", (req, res) => {
-        console.log(req.flash());
-        res.render("index", {
-            message: true
-        });
-    }));
-
-/* //로그인 처리
-router.get('/loginAlert',(req,res)=>{
-    msg=req.flash();
-    console.log(msg.error[0]);
-    console.log(!msg);
-    if(msg){
-        alert(msg.error[0]) //얼럿창 띄우고
-    }
-}
-); */
+);
 
 //로그아웃
 router.get('/logout', function (req, res, next) {

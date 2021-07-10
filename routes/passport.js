@@ -21,9 +21,7 @@ passport.use('local-login', new LocalStrategy({
     db.query(sql, email, (err, result) => {
         if (err) return done(err);
         if (!result[0]) { //값이 없으면
-            return done(null, false,{
-                'message': '비밀번호를 확인해주세요.'
-            });
+            return done(null, false,req.flash('errorMsg','가입되지 않은 이메일입니다.'));
         };
         const user = result[0];
         crypto.pbkdf2(password, user.salt, 108320, 64, 'sha512', (err, key) => {
@@ -31,9 +29,7 @@ passport.use('local-login', new LocalStrategy({
             if (key.toString('base64') === user.password) {
                 return done(null, user);
             } else {
-                return done(null, false, {
-                    'message': '비밀번호를 확인해주세요.'
-                });
+                return done(null, false, req.flash('errorMsg','비밀번호를 다시 확인해주세요.'));
             };
         });
     });
