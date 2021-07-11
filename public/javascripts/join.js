@@ -27,6 +27,7 @@ function emailCheck() {
     })
 }
 
+//비밀번호 재확인
 function passwordCheck() {
     const pw1 = $("#pw1").val();
     const pw2 = $("#pw2").val();

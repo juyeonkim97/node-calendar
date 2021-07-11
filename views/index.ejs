@@ -4,51 +4,32 @@
 <head>
 	<meta charset='utf-8' />
 	<!--stylesheets-->
-	<link href='/fullcalendar/main.css' rel='stylesheet' />
+	<link rel='stylesheet' href="/stylesheets/font.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400&display=swap"
+		rel="stylesheet">
+	<link rel='stylesheet' href='/fullcalendar/main.css' />
 	<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
 	<title>Share Calendar</title>
 	<script>
 		if ('<%= errorMsg %>') {
 			alert('<%= errorMsg %>')
 		}
+		if ('<%= isAuthenticated %>') {
+
+		}
 	</script>
+
 </head>
 
 <body>
 	<%- include('header.ejs')%>
 	<!--본문 flex row-->
-	<div class='d-flex justify-content-evenly mt-5'>
+	<div class='d-flex justify-content-evenly mt-4'>
 		<!--왼쪽 캘린더 리스트 부분-->
-		<div class="list-group m" style="width:200px">
-			<div class="modal-header">
-				<p class="fw-bold fs-5 text-start">캘린더 목록</p>
-				<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-					data-bs-target="#addCategoryModal">+</button>
-			</div>
-			<ul class="list-group">
-				<li class="list-group-item">
-					<div class="form-check form-switch ">
-						<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-						<label class="form-check-label" for="flexSwitchCheckDefault">Default
-							input</label>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="form-check form-switch ">
-						<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-						<label class="form-check-label" for="flexSwitchCheckDefault">Default
-							input</label>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="form-check form-switch ">
-						<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-						<label class="form-check-label" for="flexSwitchCheckDefault">Default
-							input</label>
-					</div>
-				</li>
-			</ul>
-		</div>
+		<%- include('index_calendar_list.ejs')%>
 		<!--캘린더-->
 		<div id='calendar' style="width: 80%;"></div>
 	</div>
@@ -63,10 +44,10 @@
 				</div>
 				<div class="modal-body">
 					<div class="row mb-3">
-						<label class="col-sm-3 col-form-label">하루종일</label>
-						<div class="col">
-							<input class='allDayNewEvent form-check-input mt-1' id="edit-allDay"
-								type="checkbox"></label>
+						<label class="col-sm-2 col-form-label p-2 m-0">하루종일</label>
+						<div class="col pt-1">
+							<input class='allDayNewEvent form-check-input mt-2' id="edit-allDay"
+								type="checkbox">
 						</div>
 					</div>
 
@@ -92,7 +73,7 @@
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">구분</label>
 						<div class="col-sm-10">
-							<select type="text" name="edit-type" id="edit-type">
+							<select class="mt-2" type="text" name="edit-type" id="edit-type">
 								<option value="카테고리1">카테고리1</option>
 								<option value="카테고리2">카테고리2</option>
 								<option value="카테고리3">카테고리3</option>
@@ -100,26 +81,11 @@
 							</select>
 						</div>
 					</div>
-					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label">색상</label>
-						<div class="col-sm-10">
-							<select name="color" id="edit-color">
-								<option value="#D25565" style="color:#D25565;">빨간색</option>
-								<option value="#9775fa" style="color:#9775fa;">보라색</option>
-								<option value="#ffa94d" style="color:#ffa94d;">주황색</option>
-								<option value="#74c0fc" style="color:#74c0fc;">파란색</option>
-								<option value="#f06595" style="color:#f06595;">핑크색</option>
-								<option value="#63e6be" style="color:#63e6be;">연두색</option>
-								<option value="#a9e34b" style="color:#a9e34b;">초록색</option>
-								<option value="#4d638c" style="color:#4d638c;">남색</option>
-								<option value="#495057" style="color:#495057;">검정색</option>
-							</select>
-						</div>
-					</div>
+
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">설명</label>
 						<div class="col-sm-10">
-							<textarea rows="4" cols="46" name="edit-desc"></textarea>
+							<textarea rows="4" cols="40" name="edit-desc"></textarea>
 						</div>
 					</div>
 				</div>
@@ -131,31 +97,6 @@
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 					<button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
 					<button type="button" class="btn btn-primary" id="updateEvent">저장</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- 카테고리 추가 모달 -->
-	<div class="modal fade" id="addCategoryModal" tabindex="-1">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">카테고리 추가</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-2 col-form-label">하루종일</label>
-						<div class="col-sm-10">
-							<input class='allDayNewEvent form-check-input mt-0' id="edit-allDay"
-								type="checkbox"></label>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer modalBtnContainer-addEvent">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" id="addCalendar">저장</button>
 				</div>
 			</div>
 		</div>

@@ -12,4 +12,10 @@ $(document).ready(function(){
         }
     });
     calendar.render();
+    
+});
+
+$('#alertLogin').on("click", ()=> {
+    alert('로그인 후 이용 가능합니다.');
+    $('#login-btn').click();
 });

@@ -1,6 +1,7 @@
 const express = require('express'), //웹 서버
     indexRouter = require('./routes'),
     userRouter = require('./routes/user'),
+    calendarRouter=require('./routes/calendar'),
     //eventRouter=require('./routes/event'),
     mysql = require('mysql'),
     flash = require('connect-flash'),
@@ -13,9 +14,7 @@ const app = express()
 
 app.use
 app.use(express.json()); //밑에 줄까지 body-parser
-app.use(express.urlencoded({
-    extended: true
-}));
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public')); //static 폴더로 지정, images 경로를 /public/images라고 하지 않아도 됨
 app.use(express.static(__dirname + '/node_modules'));
 app.set('views', __dirname + '/views');
@@ -31,9 +30,10 @@ app.use(session({
 app.use(passport.initialize()); // passport 구동, 초기화
 app.use(passport.session()); // 세션 연결
 
-app.use(flash());
-// Custom Middlewares // 3
-app.use(function (req, res, next) { //공통로직 부분
+app.use(flash()); //위치 중요, session 연결한 다음에 위치
+
+//공통로직 부분
+app.use(function (req, res, next) { 
     res.locals.errorMsg = req.flash('errorMsg');
     res.locals.isAuthenticated = req.isAuthenticated();
     res.locals.currentUser = req.user;
@@ -41,10 +41,10 @@ app.use(function (req, res, next) { //공통로직 부분
 })
 
 
-
 // 라우팅
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/calendar', calendarRouter);
 //app.use('/event',eventRouter);
 
 app.listen(3000, () => {
