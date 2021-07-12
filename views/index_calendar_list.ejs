@@ -23,11 +23,11 @@
         </div>
         <ul class="list-group">
             <% if(isAuthenticated){ 
-					calendarList.forEach(function(item){%>
+                calendars.forEach(function(item){%>
             <li class="list-group-item">
                 <div class="form-check form-switch ">
                     <input class="form-check-input" type="checkbox" id="<%= item.calendar_id %>" checked>
-                    <label class="form-check-label" for="<%= item.calendar_id %>"><%= item.calendar_name %></label>
+                    <label class="form-check-label" for="<%= item.calendar_id %>"><%= item.title %></label>
                 </div>
             </li>
             <% }) %>
@@ -55,19 +55,19 @@
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label p-2 me-3">캘린더명</label>
                             <div class="col-sm-9 p-0">
-                                <input class="form-control" type="text" name="calendarName" required="required" />
+                                <input class="form-control" type="text" name="title" required="required" />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">설명</label>
                             <div class="col-sm-10">
-                                <textarea rows="4" cols="45" name="calendarDesc"></textarea>
+                                <textarea rows="2" name="description"></textarea>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">색상</label>
                             <div class="col-sm-10">
-                                <select class="mt-2" name="calendarColor">
+                                <select class="mt-2" name="color">
                                     <option value="#D25565" style="color:#D25565;">빨간색</option>
                                     <option value="#9775fa" style="color:#9775fa;">보라색</option>
                                     <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
@@ -83,12 +83,12 @@
                         <div class="row mb-3">
                             <label class="col-sm-3 col-form-label">공개 범위</label>
                             <div class="form-check form-check-inline col-sm-2 mt-2">
-                                <input class="form-check-input" type="radio" name="calendarBounds" value="public"
+                                <input class="form-check-input" type="radio" name="bounds" value="public"
                                     id="inlineRadio1">
                                 <label class="form-check-label" for="inlineRadio1">공개</label>
                             </div>
                             <div class="form-check form-check-inline col-sm-3 mt-2">
-                                <input class="form-check-input" type="radio" name="calendarBounds" value="private"
+                                <input class="form-check-input" type="radio" name="bounds" value="private"
                                     id="inlineRadio2">
                                 <label class="form-check-label" for="inlineRadio2">비공개</label>
                             </div>
@@ -104,6 +104,5 @@
         </div>
     </div>
 </body>
-<script src="/jquery/dist/jquery.js"></script>
-<script src='/javascripts/calendarList.js'></script>
+
 </html>

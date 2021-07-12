@@ -6,21 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel='stylesheet' href="/stylesheets/font.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400&display=swap"
+		rel="stylesheet">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 </head>
 
 <body>
     <%- include('header.ejs')%>
-    <div class='d-flex justify-content-evenly mt-4'>
-        <!--왼쪽 캘린더 리스트 부분-->
-        <%- include('index_calendar_list.ejs')%>
-        <div class="row mt-2 px-5" style="width:80%">
+    <div >
+        <h2 class="text-center mt-5 mb-2" id="search_title">' '에 관한 캘린더 검색 결과</h2>
+        <hr>
+    </div>
+    <div class='d-flex justify-content-evenly mt-2'>
+        <% if(isAuthenticated){ %>
+            <%- include('index_calendar_list.ejs')%>
+        <% } %>
+        <div class="row mt-3 px-5" style="width:70%">
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">캘린더명</th>
+                        <th scope="col">설명</th>
+                        <th scope="col">일정수</th>
+                        <th scope="col">추가</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,6 +42,7 @@
                         <td>Mark</td>
                         <td>Otto</td>
                         <td>@mdo</td>
+                        <td><i class="fa fa-calendar-plus-o" aria-hidden="true"></i><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>

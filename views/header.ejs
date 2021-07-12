@@ -14,8 +14,8 @@
         <div class="container-fluid">
             <a class="navbar-brand ms-5 me-3" href="/">Share Calendar</a>
             <div class="collapse navbar-collapse">
-                <form class="d-flex">
-                    <input class="form-control me-3" type="search" placeholder="캘린더를 검색하세요.">
+                <form class="d-flex" action="/calendar/search" method="GET">
+                    <input class="form-control me-3" name="keyword" type="search" placeholder="캘린더를 검색하세요.">
                     <button type="submit" class="btn btn-outline-success me-3" >Search</button>
                 </form>
                 <ul class="navbar-nav mb-2 mb-lg-0">
