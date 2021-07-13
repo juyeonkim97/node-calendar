@@ -7,59 +7,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel='stylesheet' href="/stylesheets/font.css" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400&display=swap"
-		rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
 </head>
-
 <body>
     <%- include('header.ejs')%>
-    <div >
-        <h2 class="text-center mt-5 mb-2" id="search_title">' '에 관한 캘린더 검색 결과</h2>
+    <div>
+        <h2 class="noto-font text-center mt-5 mb-2">' <%= keyword %> ' 검색 결과</h2>
+        <p class="noto-font text-center mb-2">캘린더명과 캘린더 설명에 검색어가 포함된 경우, 공개 캘린더만 해당</p>
         <hr>
     </div>
     <div class='d-flex justify-content-evenly mt-2'>
         <% if(isAuthenticated){ %>
-            <%- include('index_calendar_list.ejs')%>
+        <%- include('index_calendar_list.ejs')%>
         <% } %>
+        <% if(calendars.length>0){%>
         <div class="row mt-3 px-5" style="width:70%">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">캘린더명</th>
-                        <th scope="col">설명</th>
-                        <th scope="col">일정수</th>
-                        <th scope="col">추가</th>
+                        <th scope="col" class="col-sm-1 text-center">캘린더명</th>
+                        <th scope="col" class="col-3 text-center">설명</th>
+                        <th scope="col" class="col-sm-1 text-center">일정수</th>
+                        <th scope="col" class="col-sm-1 text-center">추가</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td><i class="fa fa-calendar-plus-o" aria-hidden="true"></i><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                    <% calendars.forEach(function(calendar){ %>
+                        <tr>
+                            <td class="text-center"><%= calendar.title %></td>
+                            <td><%= calendar.description %></td>
+                            <td class="text-center"><%= calendar.event_count %></td>
+                            <td class="text-center"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></td>
+                        </tr>
+                        <% }) %>
                 </tbody>
             </table>
         </div>
+        <% } else{%>
+        <div>
+            <h1>검색 결과 없습니다.</h1>
+        </div>
+        <%}%>
     </div>
-
 </body>
-
 </html>
