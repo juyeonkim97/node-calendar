@@ -3,7 +3,6 @@ $(function () {
     $("#email").on("keyup", emailCheck);
     $("#pw2").on("keyup", passwordCheck);
 })
-
 function emailCheck() {
     const email = $("#email").val();
     const sendData = {
@@ -11,7 +10,7 @@ function emailCheck() {
     }
     $.ajax({
         method: 'POST',
-        url: '/user/emailCheck',
+        url: '/user/email-check',
         data: sendData,
         success: function (res) {
             if (res.message == 'fail') {

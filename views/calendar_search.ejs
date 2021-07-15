@@ -22,9 +22,6 @@
         <hr>
     </div>
     <div class='d-flex justify-content-evenly mt-2'>
-        <% if(isAuthenticated){ %>
-        <%- include('index_calendar_list.ejs')%>
-        <% } %>
         <% if(calendars.length>0){%>
         <div class="row mt-3 px-5" style="width:70%">
             <table class="table">
@@ -37,11 +34,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% calendars.forEach(function(calendar){ %>
+                    <% calendars.forEach(function(item){ %>
                         <tr>
-                            <td class="text-center"><%= calendar.title %></td>
-                            <td><%= calendar.description %></td>
-                            <td class="text-center"><%= calendar.event_count %></td>
+                            <td class="text-center"><%= item.title %></td>
+                            <td><%= item.description %></td>
+                            <td class="text-center"><%= item.event_count %></td>
                             <td class="text-center"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></td>
                         </tr>
                         <% }) %>

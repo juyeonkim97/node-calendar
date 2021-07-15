@@ -10,7 +10,7 @@ router.get('/join', (req, res) => {
 });
 
 //회원가입 시 이메일 중복 체크
-router.post('/emailCheck', (req, res) => {
+router.post('/email-check', (req, res) => {
     const email = req.body.email;
     var message = '';
     db.query('SELECT EMAIL FROM user WHERE EMAIL=?', email, (err, result) => {
