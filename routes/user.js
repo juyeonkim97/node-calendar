@@ -37,14 +37,6 @@ router.post('/join', (req, res, next) => {
     //비밀번호 암호화
     const salt = crypto.randomBytes(64).toString('base64');
     const hashedPw = crypto.pbkdf2Sync(password, salt, 108320, 64, 'sha512').toString('base64');
-    /* let salt='';
-    let hashedPw='';
-    crypto.randomBytes(64, (err, buf) => {
-        salt = buf.toString('base64');
-        crypto.pbkdf2Sync(password, salt, 108320, 64, 'sha512', (err, key) => {
-            hashedPw=key.toString('base64');
-        });
-    }); */
     const param = [email, hashedPw, nickname, salt];
     console.log(param);
     db.query('INSERT INTO user(`email`,`password`,`nickname`,`salt`) VALUES(?,?,?,?)', param, (err, result) => {

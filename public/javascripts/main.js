@@ -24,3 +24,18 @@ function alertLogin() {
     alert('로그인 후 이용 가능합니다.');
     $('#login-btn').click();
 }
+
+//visible 수정
+function changeVisible(calendarId) {
+    const visible=$('#'+calendarId).is(":checked")
+    console.log(visible,calendarId)
+    const sendData = {
+        visible: visible,
+        calendarId: calendarId
+    } 
+    $.ajax({
+        method: 'PUT',
+        url: '/calendar/visible',
+        data: sendData
+    })
+}

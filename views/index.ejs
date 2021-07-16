@@ -13,15 +13,12 @@
 	<link rel='stylesheet' href='/fullcalendar/main.css' />
 	<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
 	<title>Share Calendar</title>
+	<script src="/jquery/dist/jquery.js"></script>
 	<script>
 		if ('<%= errorMsg %>') {
 			alert('<%= errorMsg %>')
 		}
-		if ('<%= isAuthenticated %>') {
-
-		}
 	</script>
-
 </head>
 
 <body>
@@ -29,11 +26,118 @@
 	<!--본문 flex row-->
 	<div class='d-flex justify-content-evenly mt-4'>
 		<!--왼쪽 캘린더 리스트 부분-->
-		<%- include('index_calendar_list.ejs')%>
+		<div class="list-group m" style="width:200px">
+			<div class="modal-header">
+				<p class="fw-bold fs-5 text-start m-0">캘린더 목록</p>
+				<% if(isAuthenticated){ %>
+				<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+					data-bs-target="#addCategoryModal">+</button>
+				<% } else { %>
+				<button type="button" class="btn btn-outline-secondary" id="alertLogin">+</button>
+				<% } %>
+
+			</div>
+			<ul class="list-group">
+				<% if(isAuthenticated){ 
+					calendars.forEach(function(item){%>
+				<li class="list-group-item">
+					<div class="form-check form-switch ">
+						<input class="form-check-input" type="checkbox" id="<%= item.calendar_id %>"
+							onclick="changeVisible('<%= item.calendar_id %>')" checked>
+						<label class="form-check-label" for="<%= item.calendar_id %>"><%= item.title %></label>
+					</div>
+				</li>
+				<script>
+					$(document).ready(function () {
+						const calendar = JSON.parse('<%- JSON.stringify(calendars) %>');
+						for (let i = 0; i < "<%= calendars.length %>"; i++) {
+							let calendarId = calendar[i].calendar_id;
+							if (calendar[i].visible) {
+								$('#' + calendarId).prop('checked', true);
+							} else {
+								$('#' + calendarId).prop('checked', false);
+							}
+						}
+					});
+				</script>
+
+				<% }) %>
+				<% } else { %>
+				<li class="list-group-item">
+					<div class="form-check form-switch ">
+						<input class="form-check-input" type="checkbox" name="visible" checked>
+						<label class="form-check-label" for="flexSwitchCheckDefault">국가공휴일</label>
+					</div>
+				</li>
+				<% } %>
+			</ul>
+		</div>
+
+
 		<!--캘린더-->
 		<div id='calendar' style="width: 80%;"></div>
 	</div>
+	<!-- 캘린더 추가 모달 -->
+	<div class="modal fade" id="addCategoryModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">캘린더 추가</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="/calendar" method="POST">
+						<div class="row mb-3">
+							<label class="col-sm-2 col-form-label p-2 me-3">캘린더명</label>
+							<div class="col-sm-9 p-0">
+								<input class="form-control" type="text" name="title" required="required" />
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-sm-2 col-form-label">설명</label>
+							<div class="col-sm-10">
+								<textarea class="p-2" rows="2" cols="40" name="description"></textarea>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-sm-2 col-form-label">색상</label>
+							<div class="col-sm-10">
+								<select class="mt-2" name="color">
+									<option value="#D25565" style="color:#D25565;">빨간색</option>
+									<option value="#9775fa" style="color:#9775fa;">보라색</option>
+									<option value="#ffa94d" style="color:#ffa94d;">주황색</option>
+									<option value="#74c0fc" style="color:#74c0fc;">파란색</option>
+									<option value="#f06595" style="color:#f06595;">핑크색</option>
+									<option value="#63e6be" style="color:#63e6be;">연두색</option>
+									<option value="#a9e34b" style="color:#a9e34b;">초록색</option>
+									<option value="#4d638c" style="color:#4d638c;">남색</option>
+									<option value="#495057" style="color:#495057;">검정색</option>
+								</select>
+							</div>
+						</div>
+						<div class="row mb-3">
+							<label class="col-sm-3 col-form-label">공개 범위</label>
+							<div class="form-check form-check-inline col-sm-2 mt-2">
+								<input class="form-check-input" type="radio" name="bounds" value="public"
+									id="inlineRadio1" required>
+								<label class="form-check-label" for="inlineRadio1">공개</label>
+							</div>
+							<div class="form-check form-check-inline col-sm-3 mt-2">
+								<input class="form-check-input" type="radio" name="bounds" value="private"
+									id="inlineRadio2">
+								<label class="form-check-label" for="inlineRadio2">비공개</label>
+							</div>
+						</div>
+				</div>
+				<div class="modal-footer modalBtnContainer-addEvent">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					<button type="submit" class="btn btn-primary">저장</button>
+				</div>
+				</form>
+			</div>
 
+		</div>
+	</div>
 	<!-- 이벤트 추가 모달 -->
 	<div class="modal fade" id="addEventModal" tabindex="-1">
 		<div class="modal-dialog">
@@ -46,8 +150,7 @@
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label p-2 m-0">하루종일</label>
 						<div class="col pt-1">
-							<input class='allDayNewEvent form-check-input mt-2' id="edit-allDay"
-								type="checkbox">
+							<input class='allDayNewEvent form-check-input mt-2' id="edit-allDay" type="checkbox">
 						</div>
 					</div>
 
@@ -74,10 +177,10 @@
 						<label class="col-sm-2 col-form-label">구분</label>
 						<div class="col-sm-10">
 							<select class="mt-2" type="text" name="edit-type" id="edit-type">
-								<option value="카테고리1">카테고리1</option>
-								<option value="카테고리2">카테고리2</option>
-								<option value="카테고리3">카테고리3</option>
-								<option value="카테고리4">카테고리4</option>
+								<% if(isAuthenticated){ 
+									myCalendars.forEach(function(myItem){%>
+								<option value="<%= myItem.title %>"><%= myItem.title %></option>
+								<% })} %>
 							</select>
 						</div>
 					</div>
@@ -103,10 +206,11 @@
 	</div>
 </body>
 
-<script src="/jquery/dist/jquery.js"></script>
+
 <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src='/fullcalendar/main.js'></script>
 <script src='/javascripts/main.js'></script>
 <script src="/javascripts/addEvent.js"></script>
+
 
 </html>

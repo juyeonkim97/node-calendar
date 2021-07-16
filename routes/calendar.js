@@ -17,10 +17,10 @@ router.post('/', (req, res) => {
         const calendarId = result.insertId;
         param = [calendarId, userEmail];
         db.query('INSERT INTO user_calendar(`calendar_id`,`user_email`) VALUES(?,?)', param, (err, next) => {
-            if (err) console.log(err);
-            res.redirect('/');
+            if (err) console.log(err); 
         });
     });
+    res.redirect('/');
 });
 
 //캘린더 검색
@@ -45,12 +45,10 @@ router.put('/visible', (req, res) => {
     } = req.body;
     const userEmail = res.locals.currentUser.email;
     const param = [visible, calendarId, userEmail];
-    console.log(param)
-    db.query('UPDATE user_calendar SET visible = ? WHERE calendar_id = ? AND user_email=?', param, (err, next) => {
+    console.log('parameter: '+param)
+    db.query('UPDATE user_calendar SET visible = ? WHERE calendar_id = ? AND user_email=?', param, (err, result) => {
         if (err) console.log(err);
-        res.redirect('/')
-    })
-
-
+        res.redirect('/');
+    });
 })
 module.exports = router;
