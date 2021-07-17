@@ -30,8 +30,7 @@
 			<div class="modal-header">
 				<p class="fw-bold fs-5 text-start m-0">캘린더 목록</p>
 				<% if(isAuthenticated){ %>
-				<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-					data-bs-target="#addCategoryModal">+</button>
+				<button type="button" class="btn btn-outline-secondary" onclick="addCalendar()">+</button>
 				<% } else { %>
 				<button type="button" class="btn btn-outline-secondary" id="alertLogin">+</button>
 				<% } %>
@@ -43,25 +42,24 @@
 				<li class="list-group-item">
 					<div class="form-check form-switch ">
 						<input class="form-check-input" type="checkbox" id="<%= item.calendar_id %>"
-							onclick="changeVisible('<%= item.calendar_id %>')" checked>
-						<label class="form-check-label" for="<%= item.calendar_id %>"><%= item.title %></label>
+							onclick="changeVisible('<%= item.calendar_id %>')">
+						<label class="form-check-label" onclick="editCalendar('<%= item.calendar_id %>')" style="cursor:pointer"><%= item.title %></label>
 					</div>
 				</li>
-				<script>
-					$(document).ready(function () {
-						const calendar = JSON.parse('<%- JSON.stringify(calendars) %>');
-						for (let i = 0; i < "<%= calendars.length %>"; i++) {
-							let calendarId = calendar[i].calendar_id;
-							if (calendar[i].visible) {
-								$('#' + calendarId).prop('checked', true);
-							} else {
-								$('#' + calendarId).prop('checked', false);
-							}
-						}
-					});
-				</script>
-
 				<% }) %>
+				<!--visible 표시하는 script-->
+				<script>
+					const visibles = JSON.parse('<%- JSON.stringify(visibles) %>');
+					const calendarList = JSON.parse('<%- JSON.stringify(calendars) %>');
+					for (let i = 0; i < "<%= calendars.length %>"; i++) {
+						let calendarId = calendarList[i].calendar_id;
+						if (visibles[i].visible=='true') {
+							$('#' + calendarId).prop('checked', true);
+						} else {
+							$('#' + calendarId).prop('checked', false);
+						}
+					}
+				</script>
 				<% } else { %>
 				<li class="list-group-item">
 					<div class="form-check form-switch ">
@@ -77,12 +75,13 @@
 		<!--캘린더-->
 		<div id='calendar' style="width: 80%;"></div>
 	</div>
+
 	<!-- 캘린더 추가 모달 -->
-	<div class="modal fade" id="addCategoryModal" tabindex="-1">
+	<div class="modal fade" id="calendarModal" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">캘린더 추가</h5>
+					<h5 class="modal-title" id="calendar-modal-title">캘린더 추가</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -90,19 +89,19 @@
 						<div class="row mb-3">
 							<label class="col-sm-2 col-form-label p-2 me-3">캘린더명</label>
 							<div class="col-sm-9 p-0">
-								<input class="form-control" type="text" name="title" required="required" />
+								<input class="form-control" type="text" name="title" required="required"  id="calendar-title"/>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label class="col-sm-2 col-form-label">설명</label>
 							<div class="col-sm-10">
-								<textarea class="p-2" rows="2" cols="40" name="description"></textarea>
+								<textarea class="p-2" rows="2" cols="40" name="description" id="calendar-description"></textarea>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label class="col-sm-2 col-form-label">색상</label>
 							<div class="col-sm-10">
-								<select class="mt-2" name="color">
+								<select class="mt-2" name="color" id="calendar-color">
 									<option value="#D25565" style="color:#D25565;">빨간색</option>
 									<option value="#9775fa" style="color:#9775fa;">보라색</option>
 									<option value="#ffa94d" style="color:#ffa94d;">주황색</option>
@@ -119,19 +118,25 @@
 							<label class="col-sm-3 col-form-label">공개 범위</label>
 							<div class="form-check form-check-inline col-sm-2 mt-2">
 								<input class="form-check-input" type="radio" name="bounds" value="public"
-									id="inlineRadio1" required>
-								<label class="form-check-label" for="inlineRadio1">공개</label>
+									id="calendar-public" required>
+								<label class="form-check-label" for="calendar-public">공개</label>
 							</div>
 							<div class="form-check form-check-inline col-sm-3 mt-2">
 								<input class="form-check-input" type="radio" name="bounds" value="private"
-									id="inlineRadio2">
-								<label class="form-check-label" for="inlineRadio2">비공개</label>
+									id="calendar-private">
+								<label class="form-check-label" for="calendar-private">비공개</label>
 							</div>
 						</div>
+						<input type="hidden" id="calendar-id">
 				</div>
-				<div class="modal-footer modalBtnContainer-addEvent">
+				<div class="modal-footer add-button-container">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 					<button type="submit" class="btn btn-primary">저장</button>
+				</div>
+				<div class="modal-footer edit-button-container">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-danger" onclick="deleteCalendar()">삭제</button>
+					<button type="button" class="btn btn-primary" onclick="updateCalendar()">저장</button>
 				</div>
 				</form>
 			</div>
@@ -210,6 +215,7 @@
 <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src='/fullcalendar/main.js'></script>
 <script src='/javascripts/main.js'></script>
+<script src='/javascripts/calendar.js'></script>
 <script src="/javascripts/addEvent.js"></script>
 
 

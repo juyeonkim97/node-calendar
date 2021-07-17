@@ -1,6 +1,6 @@
 //일정 추가
 var addEventModal = $('#addEventModal');
-var calendarModalTitle = $('.calendar.modal-title');
+//ar calendarModalTitle = $('.calendar.modal-title');
 var editAllDay = $('#edit-allDay');
 var editTitle = $('#edit-title');
 var editStart = $('#edit-start');
@@ -8,8 +8,8 @@ var editEnd = $('#edit-end');
 var editType = $('#edit-type');
 var editColor = $('#edit-color');
 var editDesc = $('#edit-desc');
-var addBtnContainer = $('.modalBtnContainer-addEvent');
-var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
+//var addBtnContainer = $('.modalBtnContainer-addEvent');
+//var modifyBtnContainer = $('.modalBtnContainer-modifyEvent');
 
 var addEvent = function (info) {
     calendarModalTitle.html('새로운 일정');
