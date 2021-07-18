@@ -8,9 +8,13 @@ const editBtnContainer = $('.edit-button-container');
 
 //캘린더 추가 모달
 function addCalendar() {
-    addBtnContainer.show();
-    editBtnContainer.hide();
-    $('#calendarModal').modal('show');
+    if(loginCheck()){
+        addBtnContainer.show();
+        editBtnContainer.hide();
+        $('#calendarModal').modal('show');
+    }else{
+        alertLogin();
+    }
 }
 
 //visible 수정 컨트롤러

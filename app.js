@@ -2,12 +2,12 @@ const express = require('express'), //웹 서버
     indexRouter = require('./routes'),
     userRouter = require('./routes/user'),
     calendarRouter=require('./routes/calendar'),
-    //eventRouter=require('./routes/event'),
+    eventRouter=require('./routes/event'),
     mysql = require('mysql'),
     flash = require('connect-flash'),
     session = require('express-session'), // 세션 설정
     passport = require('passport'),
-    passportConfig = require('./routes/passport'); // 여기
+    passportConfig = require('./routes/passport');
 
 
 const app = express()
@@ -45,7 +45,7 @@ app.use(function (req, res, next) {
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/calendar', calendarRouter);
-//app.use('/event',eventRouter);
+app.use('/event',eventRouter);
 
 app.listen(3000, () => {
     console.debug('App listening on :3000');

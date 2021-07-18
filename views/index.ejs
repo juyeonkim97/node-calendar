@@ -7,9 +7,9 @@
 	<link rel='stylesheet' href="/stylesheets/font.css" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
+	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400&display=swap"
-		rel="stylesheet">
+		>
 	<link rel='stylesheet' href='/fullcalendar/main.css' />
 	<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
 	<title>Share Calendar</title>
@@ -22,19 +22,21 @@
 </head>
 
 <body>
+	<!-- 로그인 했는지 안 했는지 자바스크립에서 알아보기 위함-->
+	<% if(isAuthenticated){ %>
+	<input type="hidden" class="login-check" value="login">
+	<% } else { %>
+	<input type="hidden" class="login-check" value="noLogin">
+	<% } %>
+
 	<%- include('header.ejs')%>
 	<!--본문 flex row-->
 	<div class='d-flex justify-content-evenly mt-4'>
 		<!--왼쪽 캘린더 리스트 부분-->
-		<div class="list-group m" style="width:200px">
+		<div class="list-group m" style="width:230px">
 			<div class="modal-header">
 				<p class="fw-bold fs-5 text-start m-0">캘린더 목록</p>
-				<% if(isAuthenticated){ %>
 				<button type="button" class="btn btn-outline-secondary" onclick="addCalendar()">+</button>
-				<% } else { %>
-				<button type="button" class="btn btn-outline-secondary" id="alertLogin">+</button>
-				<% } %>
-
 			</div>
 			<ul class="list-group">
 				<% if(isAuthenticated){ 
@@ -43,7 +45,8 @@
 					<div class="form-check form-switch ">
 						<input class="form-check-input" type="checkbox" id="<%= item.calendar_id %>"
 							onclick="changeVisible('<%= item.calendar_id %>')">
-						<label class="form-check-label" onclick="editCalendar('<%= item.calendar_id %>')" style="cursor:pointer"><%= item.title %></label>
+						<label class="form-check-label" onclick="editCalendar('<%= item.calendar_id %>')"
+							style="cursor:pointer"><%= item.title %></label>
 					</div>
 				</li>
 				<% }) %>
@@ -53,7 +56,7 @@
 					const calendarList = JSON.parse('<%- JSON.stringify(calendars) %>');
 					for (let i = 0; i < "<%= calendars.length %>"; i++) {
 						let calendarId = calendarList[i].calendar_id;
-						if (visibles[i].visible=='true') {
+						if (visibles[i].visible == 'true') {
 							$('#' + calendarId).prop('checked', true);
 						} else {
 							$('#' + calendarId).prop('checked', false);
@@ -61,19 +64,20 @@
 					}
 				</script>
 				<% } else { %>
+				<%calendars.forEach(function(item){%>
 				<li class="list-group-item">
 					<div class="form-check form-switch ">
-						<input class="form-check-input" type="checkbox" name="visible" checked>
-						<label class="form-check-label" for="flexSwitchCheckDefault">국가공휴일</label>
+						<input class="form-check-input" type="checkbox" id="<%= item.calendar_id %>" checked disabled>
+						<label class="form-check-label"><%= item.title %></label>
 					</div>
 				</li>
+				<% }) %>
 				<% } %>
 			</ul>
 		</div>
 
-
 		<!--캘린더-->
-		<div id='calendar' style="width: 80%;"></div>
+		<div id='calendar' style="width: 70%;"></div>
 	</div>
 
 	<!-- 캘린더 추가 모달 -->
@@ -89,13 +93,15 @@
 						<div class="row mb-3">
 							<label class="col-sm-2 col-form-label p-2 me-3">캘린더명</label>
 							<div class="col-sm-9 p-0">
-								<input class="form-control" type="text" name="title" required="required"  id="calendar-title"/>
+								<input class="form-control" type="text" name="title" required="required"
+									id="calendar-title" />
 							</div>
 						</div>
 						<div class="row mb-3">
 							<label class="col-sm-2 col-form-label">설명</label>
 							<div class="col-sm-10">
-								<textarea class="p-2" rows="2" cols="40" name="description" id="calendar-description"></textarea>
+								<textarea class="p-2" rows="2" cols="40" name="description"
+									id="calendar-description"></textarea>
 							</div>
 						</div>
 						<div class="row mb-3">
@@ -144,47 +150,40 @@
 		</div>
 	</div>
 	<!-- 이벤트 추가 모달 -->
-	<div class="modal fade" id="addEventModal" tabindex="-1">
+	<div class="modal fade" id="eventModal" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="calendar modal-title"></h5>
+					<h5 class="modal-title" id="event-modal-title"></h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label p-2 m-0">하루종일</label>
-						<div class="col pt-1">
-							<input class='allDayNewEvent form-check-input mt-2' id="edit-allDay" type="checkbox">
-						</div>
-					</div>
-
-					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">일정명</label>
 						<div class="col-sm-10">
-							<input class="form-control" type="text" name="edit-title" id="edit-title"
-								required="required" />
+							<input class="form-control" type="text" id="event-title" />
 						</div>
 					</div>
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">시작</label>
 						<div class="col-sm-10">
-							<input type="date" class="form-control" type="text" name="edit-start" id="edit-start" />
+							<input type="date" class="form-control" type="text" id="event-start" />
 						</div>
 					</div>
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">끝</label>
 						<div class="col-sm-10">
-							<input type="date" class="form-control" type="text" name="edit-end" id="edit-end" />
+							<input type="date" class="form-control" type="text" id="event-end" />
 						</div>
 					</div>
+					<!--캘린더 선택-->
 					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label">구분</label>
+						<label class="col-sm-2 col-form-label">캘린더</label>
 						<div class="col-sm-10">
-							<select class="mt-2" type="text" name="edit-type" id="edit-type">
+							<select class="mt-2" type="text" id="event-calendar-id">
 								<% if(isAuthenticated){ 
 									myCalendars.forEach(function(myItem){%>
-								<option value="<%= myItem.title %>"><%= myItem.title %></option>
+								<option value="<%= myItem.calendar_id %>"><%= myItem.title %></option>
 								<% })} %>
 							</select>
 						</div>
@@ -193,30 +192,29 @@
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label">설명</label>
 						<div class="col-sm-10">
-							<textarea rows="4" cols="40" name="edit-desc"></textarea>
+							<textarea rows="4" cols="40" id="event-description"></textarea>
 						</div>
 					</div>
+					<input type="hidden" id="event-id">
 				</div>
-				<div class="modal-footer modalBtnContainer-addEvent">
+				<div class="modal-footer add-button-container">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary" id="addEvent">저장</button>
+					<button type="button" class="btn btn-primary" onclick="saveEvent()">저장</button>
 				</div>
-				<div class="modal-footer modalBtnContainer-modifyEvent">
+				<div class="modal-footer edit-button-container">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-danger" id="deleteEvent">삭제</button>
-					<button type="button" class="btn btn-primary" id="updateEvent">저장</button>
+					<button type="button" class="btn btn-danger" onclick="deleteEvent()">삭제</button>
+					<button type="button" class="btn btn-primary" onclick="updateEvent()">저장</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
 
-
-<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src='/fullcalendar/main.js'></script>
 <script src='/javascripts/main.js'></script>
 <script src='/javascripts/calendar.js'></script>
-<script src="/javascripts/addEvent.js"></script>
-
+<script src="/javascripts/event.js"></script>
 
 </html>

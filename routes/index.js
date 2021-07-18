@@ -19,7 +19,10 @@ router.get('/', async (req, res) => {
                 myCalendars:myCalendars[0]
             });
         } else {
-            res.render('index')
+            const calendars = await db.promise().query('SELECT * FROM calendar WHERE bounds="public"');
+            res.render('index', {
+                calendars: calendars[0]
+            });
         }
     } catch (err) {
         res.send(err);
