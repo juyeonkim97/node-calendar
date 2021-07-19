@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
     const userEmail = res.locals.currentUser.email;
     var param = [title, description, color, bounds, userEmail];
     db.query('INSERT INTO calendar(`title`,`description`,`color`,`bounds`,`user_email`) VALUES(?,?,?,?,?)', param, (err, result) => {
-        //insert 문의 id 받기
+        //insert문의 id 받기
         const calendarId = result.insertId;
         param = [calendarId, userEmail];
         db.query('INSERT INTO user_calendar(`calendar_id`,`user_email`) VALUES(?,?)', param, (err, next) => {
@@ -26,10 +26,8 @@ router.post('/', (req, res) => {
 //캘린더 검색
 router.get('/search', (req, res) => {
     const keyword = req.query.keyword;
-    console.log(keyword)
     db.query('SELECT * FROM calendar WHERE (title LIKE ? OR description LIKE ? ) AND bounds = "public"', ['%' + keyword + '%', '%' + keyword + '%'], (err, rows) => {
         if (err) console.log(err)
-        //res.send({calendar:rows})
         res.render('calendar_search', {
             calendars: rows,
             keyword: keyword
@@ -100,8 +98,7 @@ router.put('/:calendarId', (req, res) => {
 //캘린더 삭제
 router.delete('/:calendarId', (req, res) => {
     const calendarId = req.params.calendarId;
-    const param = calendarId;
-    db.query('DELETE FROM calendar WHERE calendar_id=?', param, (err, result) => {
+    db.query('DELETE FROM calendar WHERE calendar_id=?', calendarId, (err, result) => {
         if (err) console.log(err);
         res.status(200).send({
             result: 'redirect',

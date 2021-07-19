@@ -7,7 +7,7 @@ const eventEnd = $('#event-end');
 const eventCalendarId = $('#event-calendar-id');
 const eventDesc = $('#event-description');
 
-//이벤트 추가 모달
+//일정 추가 모달
 function addEvent(info) {
     if (loginCheck()) {
         //빈칸으로 만들어줘야됨
@@ -26,7 +26,7 @@ function addEvent(info) {
     }
 }
 
-//이벤트 저장
+//일정 추가
 function saveEvent() {
     $('#eventModal').modal('hide');
     var sendData = {
@@ -73,14 +73,134 @@ function loadEvent(info, successCallback, failureCallback) {
                     start: result[index].start,
                     end: result[index].end,
                     backgroundColor: result[index].color,
+                    borderColor: result[index].color,
                     extendedProps: {
-                        calendar_title: result[index].calendar_title,
+                        calendarId: result[index].calendar_id,
+                        calendarTitle: result[index].calendar_title,
                         description: result[index].description
-                    },
-                    
+                    }
                 });
             });
             successCallback(events);
         }
     });
+}
+
+//일정 수정 모달
+function editEvent(info) {
+    const eventId = info.event.id;
+    $.ajax({
+        method: 'GET',
+        url: '/event/' + eventId,
+        success: function (res) {
+            if (res.message === 'success') {
+                eventModalTitle.html('일정 수정');
+                eventTitle.val(info.event.title);
+                eventStart.val(info.event.startStr);
+                eventEnd.val(info.event.endStr);
+                eventCalendarId.val(info.event.extendedProps.calendarId);
+                eventDesc.val(info.event.extendedProps.description);
+
+                hiddenEventId.val(info.event.id);
+
+                addBtnContainer.hide();
+                editBtnContainer.show();
+                $('#eventModal').modal('show');
+            } else {
+                alert('일정을 수정할 수 있는 권한이 없습니다.')
+            }
+        }
+    })
+}
+
+//일정 수정
+function updateEvent() {
+    $('#eventModal').modal('hide');
+    sendData = {
+        title: eventTitle.val(),
+        start: eventStart.val(),
+        end: eventEnd.val(),
+        calendar_id: eventCalendarId.val(),
+        description: eventDesc.val(),
+    }
+    $.ajax({
+        method: 'PUT',
+        url: '/event/' + hiddenEventId.val(),
+        data: sendData,
+        success: function (response) {
+            calendar.refetchEvents();
+        }
+    })
+}
+
+//일정 드래그앤드롭 수정 권한 확인
+function dropEvent(info) {
+    const eventId = info.event.id;
+    $.ajax({
+        method: 'GET',
+        url: '/event/' + eventId,
+        success: function (res) {
+            if (res.message === 'success') {
+                dropUpdateEvent(info);
+            } else {
+                alert('일정을 수정할 수 있는 권한이 없습니다.')
+                calendar.refetchEvents();
+            }
+        }
+    })
+}
+
+//일정 드래그앤드롭 저장
+function dropUpdateEvent(info) {
+    sendData = {
+        title: info.event.title,
+        start: info.event.startStr,
+        end: info.event.endStr,
+        calendar_id: info.event.extendedProps.calendarId,
+        description: info.event.extendedProps.description
+    }
+    $.ajax({
+        method: 'PUT',
+        url: '/event/' + info.event.id,
+        data: sendData,
+        success: function (response) {
+            calendar.refetchEvents();
+        }
+    })
+}
+
+//일정 삭제
+function deleteEvent() {
+    if (confirm("일정을 삭제하시겠습니까?") == true) {
+        $('#eventModal').modal('hide');
+        $.ajax({
+            method: 'DELETE',
+            url: '/event/' + hiddenEventId.val(),
+            success: function (response) {
+                calendar.refetchEvents();
+            }
+        })
+    }     
+}
+
+//일정 hover 시 tooltip
+function eventTooltip(info) {
+    const eventTooltip = new bootstrap.Popover(info.el, {
+        title: $('<div />', {
+            class: 'popoverTitleCalendar',
+            text: info.event.title
+        }),
+        content: $('<div />', {
+                class: 'popoverInfoCalendar'
+            }).append('<p><strong>캘린더:</strong> ' + info.event.extendedProps.calendarTitle + '</p>')
+            .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + info.event.extendedProps.description + '</div>'),
+        placement: 'auto',
+        delay: {
+            "show": 400,
+            "hide": 30
+        },
+        html: true,
+        container: 'body',
+        trigger: 'hover'
+    })
 }

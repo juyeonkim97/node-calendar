@@ -8,38 +8,36 @@ $(document).ready(function () {
     height: '800px',
     initialView: 'dayGridMonth',
     editable: true, //수정가능 여부
-    selectable: true,
+    selectable: true, //select 속성 가능하도록
 
-    //일정
+    //일정 가져옴
     events: function (info, successCallback, failureCallback) {
       loadEvent(info, successCallback, failureCallback);
     },
-
     //날짜 선택
     select: function (info) {
       addEvent(info); //일정 추가 js 호출
     },
-
-    //hover 시 tooltip
+    //일정 hover 시 tooltip
     eventDidMount: function (info) {
-      var tooltip = new bootstrap.Popover(info.el, { 
-        title: $('<div />', {
-          class: 'popoverTitleCalendar',
-          text: info.event.title
-        }),
-        content: $('<div />', {
-            class: 'popoverInfoCalendar'
-          }).append('<p><strong>캘린더:</strong> ' + info.event.extendedProps.calendar_title + '</p>')
-          .append('<div class="popoverDescCalendar"><strong>설명:</strong> ' + info.event.extendedProps.description + '</div>'),
-        placement: 'auto',
-        delay: {
-          "show": 200,
-          "hide": 30
-        },
-        html: true,
-        container: 'body',
-        trigger: 'hover'
-      })
+      eventTooltip(info);
+    },
+    //일정 수정
+    eventClick: function (info) {
+      if (loginCheck()) {
+        editEvent(info);
+      } else {
+        alertLogin();
+      }
+    },
+    //일정 드래그앤드롭 수정
+    eventDrop: function (info) {
+      if (loginCheck()) {
+        dropEvent(info);
+      } else {
+        calendar.refetchEvents();
+        alertLogin();
+      }
     }
   });
   calendar.render();

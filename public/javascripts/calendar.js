@@ -60,13 +60,15 @@ function editCalendar(calendarId) {
                 calendarTitle.val(calendarInfo.title);
                 calendarDesc.val(calendarInfo.description);
                 calendarColor.val(calendarInfo.color);
-                hiddenCalendarId.val(calendarInfo.calendar_id);
                 calendarBound = calendarInfo.bounds;
                 if (calendarBound == "public") {
                     $('#calendar-public').prop('checked', true);
                 } else {
                     $('#calendar-private').prop('checked', true);
                 }
+
+                hiddenCalendarId.val(calendarInfo.calendar_id);
+                
                 addBtnContainer.hide();
                 editBtnContainer.show();
                 $('#calendarModal').modal('show');

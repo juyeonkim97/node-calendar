@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
             //사용자가 생성하거나 추가한 캘린더 리스트(왼쪽 캘린더 리스트용)
             const calendars = await db.promise().query('SELECT * FROM calendar WHERE calendar_id IN (SELECT calendar_id FROM user_calendar WHERE user_email=?)', userEmail);
             //이벤트 추가 시 카테고리에 뜰 사용자가 생성한 캘린더
-            const myCalendars = await db.promise().query('SELECT * FROM calendar WHERE user_email=?', userEmail);
+            const myCalendars = await db.promise().query('SELECT * FROM calendar WHERE user_email=? order by title', userEmail);
             //res.send({'calendars':visibles[0]});
             res.render('index', {
                 visibles:visibles[0],
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
                 myCalendars:myCalendars[0]
             });
         } else {
-            const calendars = await db.promise().query('SELECT * FROM calendar WHERE bounds="public"');
+            const calendars = await db.promise().query('SELECT * FROM calendar WHERE calendar_id in(45,46,52) order by title');
             res.render('index', {
                 calendars: calendars[0]
             });
