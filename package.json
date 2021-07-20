@@ -25,6 +25,7 @@
     "font-awesome": "^4.7.0",
     "fullcalendar": "^5.8.0",
     "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",

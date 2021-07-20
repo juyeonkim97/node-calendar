@@ -66,7 +66,6 @@ router.get('/:eventId', (req, res) => {
 
 //일정 수정
 router.put('/:eventId', (req, res) => {
-    console.log('일정 수정 호출')
     const {
         title,
         start,
@@ -82,7 +81,7 @@ router.put('/:eventId', (req, res) => {
     });
 })
 
-//일정삭제
+//일정 삭제
 router.delete('/:eventId', (req, res) => {
     const eventId = req.params.eventId;
     db.query('DELETE FROM event WHERE event_id=?', eventId, (err, result) => {

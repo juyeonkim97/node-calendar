@@ -16,8 +16,10 @@ function addEvent(info) {
 
         eventModalTitle.html('일정 추가');
         eventStart.val(info.startStr);
-        eventEnd.val(info.endStr);
-
+        //끝나는 날 보여줄 때 -1 해서 보여주기(헷갈림 방지)
+        //eventEnd.val(info.endStr)
+        eventEnd.val(moment(info.endStr).subtract(1,'day').format('YYYY-MM-DD'));
+        console.log()
         addBtnContainer.show();
         editBtnContainer.hide();
         $('#eventModal').modal('show');
@@ -28,7 +30,6 @@ function addEvent(info) {
 
 //일정 추가
 function saveEvent() {
-    $('#eventModal').modal('hide');
     var sendData = {
         title: eventTitle.val(),
         start: eventStart.val(),
@@ -52,6 +53,7 @@ function saveEvent() {
         url: "/event",
         data: sendData,
         success: function (response) {
+            $('#eventModal').modal('hide');
             //캘린더 reload
             calendar.refetchEvents();
         }
@@ -67,11 +69,18 @@ function loadEvent(info, successCallback, failureCallback) {
             result = JSON.parse(JSON.stringify(result.resData));
             const events = [];
             $(result).each(function (index) {
+                start = moment(result[index].start)
+                end = moment(result[index].end)
+                gap=end.diff(start, 'days') //두 날짜의 차이
+                if(gap>0){ //일정 +1 해야지 맞게 출력됨
+                    end=moment(result[index].end).add(1,'day').format('YYYY-MM-DD')
+                }
+                console.log(end)
                 events.push({
                     id: result[index].event_id,
                     title: result[index].title,
                     start: result[index].start,
-                    end: result[index].end,
+                    end: end,
                     backgroundColor: result[index].color,
                     borderColor: result[index].color,
                     extendedProps: {
@@ -97,7 +106,8 @@ function editEvent(info) {
                 eventModalTitle.html('일정 수정');
                 eventTitle.val(info.event.title);
                 eventStart.val(info.event.startStr);
-                eventEnd.val(info.event.endStr);
+                //끝나는 날 보여줄 때 -1 해서 보여주기(헷갈림 방지)
+                eventEnd.val(moment(info.event.endStr).subtract(1,'day').format('YYYY-MM-DD'));
                 eventCalendarId.val(info.event.extendedProps.calendarId);
                 eventDesc.val(info.event.extendedProps.description);
 
@@ -180,7 +190,7 @@ function deleteEvent() {
                 calendar.refetchEvents();
             }
         })
-    }     
+    }
 }
 
 //일정 hover 시 tooltip

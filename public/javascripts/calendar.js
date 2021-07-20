@@ -52,6 +52,9 @@ function editCalendar(calendarId) {
             //console.log(res.resData)
             if (res.resData === 'fail') {
                 alert('캘린더를 수정할 수 있는 권한이 없습니다.')
+                hiddenCalendarId.val(calendarId);
+                deleteCalendar();
+
             } else {
                 // console.log(JSON.stringify(res.resData))
                 calendarInfo = JSON.parse(JSON.stringify(res.resData));
@@ -68,7 +71,7 @@ function editCalendar(calendarId) {
                 }
 
                 hiddenCalendarId.val(calendarInfo.calendar_id);
-                
+
                 addBtnContainer.hide();
                 editBtnContainer.show();
                 $('#calendarModal').modal('show');

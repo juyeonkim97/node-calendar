@@ -7,7 +7,7 @@ $(document).ready(function () {
   calendar = new FullCalendar.Calendar(calendarEl, {
     height: '800px',
     initialView: 'dayGridMonth',
-    editable: true, //수정가능 여부
+    editable: true,
     selectable: true, //select 속성 가능하도록
 
     //일정 가져옴
