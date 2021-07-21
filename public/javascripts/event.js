@@ -17,7 +17,6 @@ function addEvent(info) {
         eventModalTitle.html('일정 추가');
         eventStart.val(info.startStr);
         //끝나는 날 보여줄 때 -1 해서 보여주기(헷갈림 방지)
-        //eventEnd.val(info.endStr)
         eventEnd.val(moment(info.endStr).subtract(1,'day').format('YYYY-MM-DD'));
         console.log()
         addBtnContainer.show();
@@ -30,6 +29,8 @@ function addEvent(info) {
 
 //일정 추가
 function saveEvent() {
+    //데이터베이스에 저장할 때는 다시 +1 해주기
+    eventEnd.val(moment(eventEnd.val()).add(1,'day').format('YYYY-MM-DD'));
     var sendData = {
         title: eventTitle.val(),
         start: eventStart.val(),
@@ -37,7 +38,7 @@ function saveEvent() {
         calendar_id: eventCalendarId.val(),
         description: eventDesc.val()
     };
-
+    console.log(sendData)
     if (sendData.start > sendData.end) {
         alert('끝나는 날짜가 앞설 수 없습니다.');
         return false;
@@ -69,18 +70,11 @@ function loadEvent(info, successCallback, failureCallback) {
             result = JSON.parse(JSON.stringify(result.resData));
             const events = [];
             $(result).each(function (index) {
-                start = moment(result[index].start)
-                end = moment(result[index].end)
-                gap=end.diff(start, 'days') //두 날짜의 차이
-                if(gap>0){ //일정 +1 해야지 맞게 출력됨
-                    end=moment(result[index].end).add(1,'day').format('YYYY-MM-DD')
-                }
-                console.log(end)
                 events.push({
                     id: result[index].event_id,
                     title: result[index].title,
                     start: result[index].start,
-                    end: end,
+                    end: result[index].end,
                     backgroundColor: result[index].color,
                     borderColor: result[index].color,
                     extendedProps: {
@@ -97,7 +91,7 @@ function loadEvent(info, successCallback, failureCallback) {
 
 //일정 수정 모달
 function editEvent(info) {
-    const eventId = info.event.id;
+    const eventId = info.event.id; 
     $.ajax({
         method: 'GET',
         url: '/event/' + eventId,
@@ -125,10 +119,17 @@ function editEvent(info) {
 
 //일정 수정
 function updateEvent() {
+    console.log(eventEnd.val())
+    if(!eventStart.val()&!eventEnd.val()){
+        eventEnd.val(moment(eventEnd.val()).add(1,'day').format('YYYY-MM-DD'));
+        console.log(eventEnd.val())
+    }
+    
     $('#eventModal').modal('hide');
     sendData = {
         title: eventTitle.val(),
         start: eventStart.val(),
+        //데이터베이스에 저장할 때는 다시 +1 해주기
         end: eventEnd.val(),
         calendar_id: eventCalendarId.val(),
         description: eventDesc.val(),

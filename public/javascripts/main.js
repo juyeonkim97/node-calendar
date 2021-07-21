@@ -32,6 +32,7 @@ $(document).ready(function () {
     },
     //일정 드래그앤드롭 수정
     eventDrop: function (info) {
+      console.log(info.event.endStr)
       if (loginCheck()) {
         dropEvent(info);
       } else {
