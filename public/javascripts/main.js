@@ -24,6 +24,7 @@ $(document).ready(function () {
     },
     //일정 수정
     eventClick: function (info) {
+      console.log(info.event.endStr)
       if (loginCheck()) {
         editEvent(info);
       } else {

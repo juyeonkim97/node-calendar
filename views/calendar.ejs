@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--stylesheets-->
+    <link rel='stylesheet' href="/stylesheets/font.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400&display=swap">
+    <link rel='stylesheet' href='/fullcalendar/main.css' />
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <script src="/jquery/dist/jquery.js"></script>
+</head>
+
+<body>
+    <%- include('header.ejs')%>
+    <div class='d-flex justify-content-evenly mt-4'>
+        <div id='preview-calendar' style="width: 70%;"></div>
+    </div>
+</body>
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/moment/min/moment.min.js"></script>
+<script src='/fullcalendar/main.js'></script>
+<script src='/javascripts/preview.js'></script>
+</html>

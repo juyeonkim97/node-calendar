@@ -118,18 +118,13 @@ function editEvent(info) {
 }
 
 //일정 수정
-function updateEvent() {
-    console.log(eventEnd.val())
-    if(!eventStart.val()&!eventEnd.val()){
-        eventEnd.val(moment(eventEnd.val()).add(1,'day').format('YYYY-MM-DD'));
-        console.log(eventEnd.val())
-    }
-    
+function updateEvent() {    
     $('#eventModal').modal('hide');
+    //데이터베이스에 저장할 때는 다시 +1 해주기
+    eventEnd.val(moment(eventEnd.val()).add(1,'day').format('YYYY-MM-DD'))
     sendData = {
         title: eventTitle.val(),
         start: eventStart.val(),
-        //데이터베이스에 저장할 때는 다시 +1 해주기
         end: eventEnd.val(),
         calendar_id: eventCalendarId.val(),
         description: eventDesc.val(),

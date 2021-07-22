@@ -47,7 +47,7 @@ function editCalendar(calendarId) {
     //console.log(sendData)
     $.ajax({
         method: 'GET',
-        url: '/calendar/' + calendarId,
+        url: '/calendar/info/' + calendarId,
         success: function (res) {
             //console.log(res.resData)
             if (res.resData === 'fail') {

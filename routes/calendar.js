@@ -35,8 +35,13 @@ router.get('/search', (req, res) => {
     });
 })
 
-//캘린더 정보 가져오기
+//캘린더 가져오기
 router.get('/:calendarId', (req, res) => {
+    res.render('calendar')
+})
+
+//캘린더 정보 가져오기
+router.get('/info/:calendarId', (req, res) => {
     const calendarId = req.params.calendarId;
     const userEmail = res.locals.currentUser.email;
     const param = [calendarId, userEmail];
