@@ -1,3 +1,5 @@
+const calendarId=$('#calendar-id');
+
 //미리보기 캘린더 설정
 $(document).ready(function () {
     var calendarEl = document.getElementById('preview-calendar');
@@ -22,10 +24,12 @@ $(document).ready(function () {
 function loadEvent(info, successCallback, failureCallback) {
     $.ajax({
         method: 'GET',
-        url: '/event/all',
+        url: '/event/'+calendarId.val(),
         success: function (result) {
+            
             result = JSON.parse(JSON.stringify(result.resData));
             const events = [];
+            console.log(result)
             $(result).each(function (index) {
                 events.push({
                     id: result[index].event_id,

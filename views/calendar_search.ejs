@@ -37,9 +37,8 @@
                 <tbody>
                     <% calendars.forEach(function(item){ %>
                     <tr>
-                        <td class="text-center"><a href="/calendar/<%= item.calendar_id %>" target="_blank"><%= item.title %>
-                        </a></td>
-                        <td><a href="/calendar/<%= item.calendar_id %>" target="_blank"><%= item.description %></a></td>
+                        <td class="text-center"><a href="/calendar/<%= item.calendar_id %>" class="link-primary" target="_blank"><%= item.title %></a></td>
+                        <td><%= item.description %></td>
                         <td class="text-center"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i><i
                                 class="fa fa-calendar-minus-o" aria-hidden="true"></i></td>
                     </tr>

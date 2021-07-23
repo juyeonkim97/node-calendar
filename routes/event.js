@@ -19,6 +19,20 @@ router.post('/', (req, res) => {
     });
 });
 
+
+//일정 가져옴
+router.get('/:calendarId', (req, res) => {
+    const calendarId = req.params.calendarId;
+    db.query('select event_id,a.title, start,end,a.description,b.title as calendar_title, color from event as a,calendar as b where a.calendar_id=b.calendar_id and a.calendar_id=?;', calendarId, (err, result) => {
+        if (err) console.log(err);
+        if (result) { //값이 있으면
+            res.send({
+                resData: result
+            })
+        }
+    });
+})
+
 //일정 가져옴
 router.get('/all', (req, res) => {
     if (res.locals.isAuthenticated) { //로그인 한 경우

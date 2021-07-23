@@ -37,7 +37,10 @@ router.get('/search', (req, res) => {
 
 //캘린더 가져오기
 router.get('/:calendarId', (req, res) => {
-    res.render('calendar')
+    const calendarId = req.params.calendarId;
+    res.render('calendar', {
+        calendarId: calendarId
+    });
 })
 
 //캘린더 정보 가져오기
