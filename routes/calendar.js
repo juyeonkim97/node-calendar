@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
 //캘린더 검색
 router.get('/search', (req, res) => {
     const keyword = req.query.keyword;
-    db.query('SELECT * FROM calendar WHERE (title LIKE ? OR description LIKE ? ) AND bounds = "public"', ['%' + keyword + '%', '%' + keyword + '%'], (err, rows) => {
+    db.query('SELECT * FROM calendar WHERE (title LIKE ? OR description LIKE ? ) AND bounds = "public" order by title', ['%' + keyword + '%', '%' + keyword + '%'], (err, rows) => {
         if (err) console.log(err)
         res.render('calendar_search', {
             calendars: rows,
@@ -35,7 +35,7 @@ router.get('/search', (req, res) => {
     });
 })
 
-//캘린더 가져오기
+//캘린더 미리보기
 router.get('/:calendarId', (req, res) => {
     const calendarId = req.params.calendarId;
     res.render('calendar', {
@@ -77,10 +77,7 @@ router.put('/visible', (req, res) => {
     console.log('parameter: ' + param)
     db.query('UPDATE user_calendar SET visible = ? WHERE calendar_id = ? AND user_email=?', param, (err, result) => {
         if (err) console.log(err);
-        res.status(200).send({
-            result: 'redirect',
-            url: '/'
-        })
+        res.status(200).send()
     });
 })
 
@@ -114,6 +111,7 @@ router.delete('/:calendarId', (req, res) => {
         })
     });
 })
+
 
 
 

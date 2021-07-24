@@ -24,7 +24,6 @@ $(document).ready(function () {
     },
     //일정 수정
     eventClick: function (info) {
-      console.log(info.event.endStr)
       if (loginCheck()) {
         editEvent(info);
       } else {
@@ -33,7 +32,7 @@ $(document).ready(function () {
     },
     //일정 드래그앤드롭 수정
     eventDrop: function (info) {
-      console.log(info.event.endStr)
+      console.log(info.event.id)
       if (loginCheck()) {
         dropEvent(info);
       } else {

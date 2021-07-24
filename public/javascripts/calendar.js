@@ -6,12 +6,32 @@ const calendarColor = $('#calendar-color');
 const addBtnContainer = $('.add-button-container');
 const editBtnContainer = $('.edit-button-container');
 
-//캘린더 추가 모달
-function addCalendar() {
+//캘린더 생성 모달
+function createCalendar() {
     if(loginCheck()){
         addBtnContainer.show();
         editBtnContainer.hide();
         $('#calendarModal').modal('show');
+    }else{
+        alertLogin();
+    }
+}
+
+//캘린더 추가(구독)
+function addCalendar(calendarId) {
+    console.log(calendarId)
+    if(loginCheck()){
+        $.ajax({
+            method: 'POST',
+            url: '/user/calendar/' + calendarId,
+            success: function (res) {
+                if (res.message === 'fail') {
+                    alert('이미 추가된 캘린더입니다.');
+                } else {
+                    alert('캘린더가 추가되었습니다.')
+                }
+            }
+        })
     }else{
         alertLogin();
     }
@@ -29,11 +49,8 @@ function changeVisible(calendarId) {
         method: 'PUT',
         url: '/calendar/visible',
         data: sendData,
-        success: function (response) {
-            if (response.result == 'redirect') {
-                //redirecting to main page from here.
-                window.location.replace(response.url);
-            }
+        success: function (res) {
+            calendar.refetchEvents();
         }
     })
 }
@@ -53,7 +70,7 @@ function editCalendar(calendarId) {
             if (res.resData === 'fail') {
                 alert('캘린더를 수정할 수 있는 권한이 없습니다.')
                 hiddenCalendarId.val(calendarId);
-                deleteCalendar();
+                removeCalendar();
 
             } else {
                 // console.log(JSON.stringify(res.resData))
@@ -113,6 +130,22 @@ function deleteCalendar() {
         $.ajax({
             method: 'DELETE',
             url: '/calendar/' + hiddenCalendarId.val(),
+            success: function (response) {
+                if (response.result == 'redirect') {
+                    //redirecting to main page from here.
+                    window.location.replace(response.url);
+                }
+            }
+        })
+    }     
+}
+
+//다른 사용자의 캘린더 삭제(구독취소)
+function removeCalendar() {
+    if (confirm("캘린더를 삭제하시겠습니까?") == true) {
+        $.ajax({
+            method: 'DELETE',
+            url: '/user/calendar/' + hiddenCalendarId.val(),
             success: function (response) {
                 if (response.result == 'redirect') {
                     //redirecting to main page from here.

@@ -6,8 +6,46 @@ const express = require('express'),
 
 //회원가입 페이지 이동
 router.get('/join', (req, res) => {
-    res.render('join');
+    res.render('index');
 });
+
+//다른 사용자의 캘린더 추가
+router.post('/calendar/:calendarId', (req, res) => {
+    const calendarId = req.params.calendarId;
+    const userEmail = res.locals.currentUser.email;
+    const param = [userEmail, calendarId];
+    //사용자에게 이미 추가된 캘린더인지 확인
+    db.query('select * from user_calendar where user_email=? and calendar_id=?', param, (err, result) => {
+        if (err) console.log(err);
+        if (result[0]) { //값이 없으면 캘린더 추가
+            res.send({
+                message: 'fail'
+            })
+        } else {
+            db.query('INSERT INTO user_calendar(`user_email`,`calendar_id`) VALUES(?,?)', param, (err, result) => {
+                if (err) console.log(err)
+                res.send({
+                    message: 'success'
+                })
+            })
+        }
+    });
+})
+
+
+//다른 사용자의 캘린더 삭제(구독 취소)
+router.delete('/calendar/:calendarId', (req, res) => {
+    const calendarId = req.params.calendarId;
+    const userEmail = res.locals.currentUser.email;
+    const param = [userEmail, calendarId];
+    db.query('DELETE FROM user_calendar WHERE user_email=? and calendar_id=?', param, (err, result) => {
+        if (err) console.log(err);
+        res.status(200).send({
+            result: 'redirect',
+            url: '/'
+        })
+    });
+})
 
 //회원가입 시 이메일 중복 체크
 router.post('/email-check', (req, res) => {

@@ -16,6 +16,13 @@
 </head>
 
 <body>
+    <!-- 로그인 했는지 안 했는지 자바스크립에서 알아보기 위함-->
+    <% if(isAuthenticated){ %>
+    <input type="hidden" class="login-check" value="login">
+    <% } else { %>
+    <input type="hidden" class="login-check" value="noLogin">
+    <% } %>
+
     <%- include('header.ejs')%>
     <div>
         <h2 class="noto-font text-center mt-5 mb-2">' <%= keyword %> ' 검색 결과</h2>
@@ -37,10 +44,11 @@
                 <tbody>
                     <% calendars.forEach(function(item){ %>
                     <tr>
-                        <td class="text-center"><a href="/calendar/<%= item.calendar_id %>" class="link-primary" target="_blank"><%= item.title %></a></td>
-                        <td><%= item.description %></td>
-                        <td class="text-center"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i><i
-                                class="fa fa-calendar-minus-o" aria-hidden="true"></i></td>
+                        <td class="text-center align-middle"><a href="/calendar/<%= item.calendar_id %>"
+                                class="link-primary" target="_blank"><%= item.title %></a></td>
+                        <td class="align-middle"><%= item.description %></td>
+                        <td class="text-center align-middle"><button class="btn btn-success"
+                                onclick="addCalendar('<%= item.calendar_id %>')">추가</button></td>
                     </tr>
                     <% }) %>
                 </tbody>
@@ -53,4 +61,7 @@
         <%}%>
     </div>
 </body>
+<script src="/jquery/dist/jquery.js"></script>
+<script src="/javascripts/main.js"></script>
+<script src="/javascripts/calendar.js"></script>
 </html>

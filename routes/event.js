@@ -19,21 +19,7 @@ router.post('/', (req, res) => {
     });
 });
 
-
-//일정 가져옴
-router.get('/:calendarId', (req, res) => {
-    const calendarId = req.params.calendarId;
-    db.query('select event_id,a.title, start,end,a.description,b.title as calendar_title, color from event as a,calendar as b where a.calendar_id=b.calendar_id and a.calendar_id=?;', calendarId, (err, result) => {
-        if (err) console.log(err);
-        if (result) { //값이 있으면
-            res.send({
-                resData: result
-            })
-        }
-    });
-})
-
-//일정 가져옴
+//모든 일정 가져옴
 router.get('/all', (req, res) => {
     if (res.locals.isAuthenticated) { //로그인 한 경우
         const userEmail = res.locals.currentUser.email;
@@ -57,8 +43,21 @@ router.get('/all', (req, res) => {
     }
 })
 
+//일정 가져옴
+router.get('/:calendarId', (req, res) => {
+    const calendarId = req.params.calendarId;
+    db.query('select event_id,a.title, start,end,a.description,b.title as calendar_title, color from event as a,calendar as b where a.calendar_id=b.calendar_id and a.calendar_id=?;', calendarId, (err, result) => {
+        if (err) console.log(err);
+        if (result) { //값이 있으면
+            res.send({
+                resData: result
+            })
+        }
+    });
+})
+
 //일정 수정 권한 있는지 확인
-router.get('/:eventId', (req, res) => {
+router.get('/edit-check/:eventId', (req, res) => {
     const eventId = req.params.eventId;
     const userEmail = res.locals.currentUser.email;
     const param = [userEmail, eventId];

@@ -36,7 +36,7 @@
 		<div class="list-group m" style="width:230px">
 			<div class="modal-header">
 				<p class="fw-bold fs-5 text-start m-0">캘린더 목록</p>
-				<button type="button" class="btn btn-outline-secondary" onclick="addCalendar()">+</button>
+				<button type="button" class="btn btn-outline-secondary" onclick="createCalendar()">+</button>
 			</div>
 			<ul class="list-group">
 				<% if(isAuthenticated){ 
@@ -93,7 +93,7 @@
 						<div class="row mb-3">
 							<label class="col-sm-2 col-form-label p-2 me-3">캘린더명</label>
 							<div class="col-sm-9 p-0">
-								<input class="form-control" type="text" name="title" required="required"
+								<input class="form-control" type="text" name="title" required autofocus
 									id="calendar-title" />
 							</div>
 						</div>

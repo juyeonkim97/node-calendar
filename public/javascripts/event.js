@@ -94,8 +94,9 @@ function editEvent(info) {
     const eventId = info.event.id; 
     $.ajax({
         method: 'GET',
-        url: '/event/' + eventId,
+        url: '/event/edit-check/' + eventId,
         success: function (res) {
+            console.log(res)
             if (res.message === 'success') {
                 eventModalTitle.html('일정 수정');
                 eventTitle.val(info.event.title);
@@ -144,7 +145,7 @@ function dropEvent(info) {
     const eventId = info.event.id;
     $.ajax({
         method: 'GET',
-        url: '/event/' + eventId,
+        url: '/event/edit-check/' + eventId,
         success: function (res) {
             if (res.message === 'success') {
                 dropUpdateEvent(info);
