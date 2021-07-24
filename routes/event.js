@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
 router.get('/all', (req, res) => {
     if (res.locals.isAuthenticated) { //로그인 한 경우
         const userEmail = res.locals.currentUser.email;
-        db.query('select a.event_id,a.title,a.start,a.end,a.description,b.color,b.calendar_id,b.title as calendar_title from event as a,calendar as b where a.calendar_id=b.calendar_id and a.calendar_id in (select calendar_id from user_calendar where user_email=? and visible="true");', userEmail, (err, result) => {
+        db.query('SELECT a.event_id,a.title,a.start,a.end,a.description,b.color,b.calendar_id,b.title AS calendar_title FROM event AS a,calendar AS b WHERE a.calendar_id=b.calendar_id AND a.calendar_id IN (SELECT calendar_id FROM user_calendar WHERE user_email=? AND visible="true");', userEmail, (err, result) => {
             if (err) console.log(err);
             if (result) { //값이 있으면
                 res.send({
@@ -32,7 +32,7 @@ router.get('/all', (req, res) => {
             }
         });
     } else {
-        db.query('select a.event_id,a.title,a.start,a.end,a.description,b.color,b.title as calendar_title from event as a,calendar as b where a.calendar_id=b.calendar_id and a.calendar_id IN (45,46,52)', (err, result) => {
+        db.query('SELECT a.event_id,a.title,a.start,a.end,a.description,b.color,b.title AS calendar_title FROM event AS a,calendar AS b WHERE a.calendar_id=b.calendar_id AND a.calendar_id IN (45,46,52)', (err, result) => {
             if (err) console.log(err);
             if (result) { //값이 있으면
                 res.send({
@@ -46,7 +46,7 @@ router.get('/all', (req, res) => {
 //일정 가져옴
 router.get('/:calendarId', (req, res) => {
     const calendarId = req.params.calendarId;
-    db.query('select event_id,a.title, start,end,a.description,b.title as calendar_title, color from event as a,calendar as b where a.calendar_id=b.calendar_id and a.calendar_id=?;', calendarId, (err, result) => {
+    db.query('SELECT event_id,a.title, start,end,a.description,b.title AS calendar_title, color FROM event AS a,calendar AS b WHERE a.calendar_id=b.calendar_id AND a.calendar_id=?;', calendarId, (err, result) => {
         if (err) console.log(err);
         if (result) { //값이 있으면
             res.send({
@@ -63,7 +63,7 @@ router.get('/edit-check/:eventId', (req, res) => {
     const param = [userEmail, eventId];
     console.log('parameter: ' + param)
     var message = '';
-    db.query('select * from calendar where user_email=? and calendar_id=(select calendar_id from event where event_id=?)', param, (err, result) => {
+    db.query('SELECT * FROM calendar WHERE user_email=? AND calendar_id=(SELECT calendar_id FROM event WHERE event_id=?)', param, (err, result) => {
         if (err) console.log(err);
         if (result[0]) { //값이 있으면
             res.send({

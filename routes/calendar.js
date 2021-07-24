@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
 //캘린더 검색
 router.get('/search', (req, res) => {
     const keyword = req.query.keyword;
-    db.query('SELECT * FROM calendar WHERE (title LIKE ? OR description LIKE ? ) AND bounds = "public" order by title', ['%' + keyword + '%', '%' + keyword + '%'], (err, rows) => {
+    db.query('SELECT * FROM calendar WHERE (title LIKE ? OR description LIKE ? ) AND bounds = "public" ORDER BY title', ['%' + keyword + '%', '%' + keyword + '%'], (err, rows) => {
         if (err) console.log(err)
         res.render('calendar_search', {
             calendars: rows,
@@ -74,7 +74,6 @@ router.put('/visible', (req, res) => {
     } = req.body;
     const userEmail = res.locals.currentUser.email;
     const param = [visible, calendarId, userEmail];
-    console.log('parameter: ' + param)
     db.query('UPDATE user_calendar SET visible = ? WHERE calendar_id = ? AND user_email=?', param, (err, result) => {
         if (err) console.log(err);
         res.status(200).send()

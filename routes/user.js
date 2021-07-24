@@ -15,7 +15,7 @@ router.post('/calendar/:calendarId', (req, res) => {
     const userEmail = res.locals.currentUser.email;
     const param = [userEmail, calendarId];
     //사용자에게 이미 추가된 캘린더인지 확인
-    db.query('select * from user_calendar where user_email=? and calendar_id=?', param, (err, result) => {
+    db.query('SELECT * FROM user_calendar WHERE user_email=? AND calendar_id=?', param, (err, result) => {
         if (err) console.log(err);
         if (result[0]) { //값이 없으면 캘린더 추가
             res.send({
@@ -51,7 +51,7 @@ router.delete('/calendar/:calendarId', (req, res) => {
 router.post('/email-check', (req, res) => {
     const email = req.body.email;
     var message = '';
-    db.query('SELECT EMAIL FROM user WHERE EMAIL=?', email, (err, result) => {
+    db.query('SELECT email FROM user WHERE email=?', email, (err, result) => {
         if (err) console.log(err)
         if (result[0]) { //값이 있으면 해당
             message = "fail";
