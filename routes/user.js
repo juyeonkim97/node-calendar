@@ -6,7 +6,7 @@ const express = require('express'),
 
 //회원가입 페이지 이동
 router.get('/join', (req, res) => {
-    res.render('index');
+    res.render('join');
 });
 
 //다른 사용자의 캘린더 추가

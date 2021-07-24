@@ -29,6 +29,7 @@ router.get('/search', (req, res) => {
     db.query('SELECT * FROM calendar WHERE (title LIKE ? OR description LIKE ? ) AND bounds = "public" ORDER BY title', ['%' + keyword + '%', '%' + keyword + '%'], (err, rows) => {
         if (err) console.log(err)
         res.render('calendar_search', {
+            title:keyword,
             calendars: rows,
             keyword: keyword
         });
