@@ -13,7 +13,7 @@ fullcalendar v5, crypto, passport
 <img src="https://user-images.githubusercontent.com/61386041/126887433-18f05a3a-1dcb-4427-8812-26fadab608df.PNG" width="700">
 
 ## 공유 캘린더 주요 기능
-- 캘린더 생성(공개/비공개)
+- 캘린더 생성/수정/삭제(공개/비공개)
 - 캘린더 검색
-- 다른 사용자의 캘린더 추가
-- 일정 추가
+- 다른 사용자의 캘린더 추가/삭제
+- 일정 생성/수정/삭제
