@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
@@ -10,31 +11,33 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand ms-5 me-3" href="/">Share Calendar</a>
-            <div class="collapse navbar-collapse">
-                <form class="d-flex" action="/calendar/search" method="GET">
+    <header class="p-3 b-3 border-bottom">
+        <div class="container mx-5">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a class="nav-link fs-4 pe-4 link-dark" href="/">Share Calendar</a>
+                <form form class="d-flex col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" action="/calendar/search"
+                    method="GET">
                     <input class="form-control me-3" name="keyword" type="search" placeholder="'캘린더'라고 검색해보세요.">
-                    <button type="submit" class="btn btn-outline-success me-3" >Search</button>
+                    <button type="submit" class="btn btn-outline-success">Search</button>
                 </form>
-                <ul class="navbar-nav mb-2 mb-lg-0">
-                    <% if(isAuthenticated){ %>
-                    <li class="nav-item">
-                        <a href="/user/logout" class="btn btn-outline-secondary">Logout</a>
-                    </li>
-                    <% } else { %>
-                    <li class="nav-item">
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#loginModal" id="login-btn">Login</button>
-                    </li>
-                    <% } %>
-                </ul>
+                <div class="dropdown text-end">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <% if(isAuthenticated){ %>
+                        <li class="nav-item">
+                            <a href="/user/logout" class="btn btn-outline-secondary">Logout</a>
+                        </li>
+                        <% } else { %>
+                        <li class="nav-item">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#loginModal" id="login-btn">Login</button>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
             </div>
         </div>
-    </nav>
-
+    </header>
     <!-- 로그인 모달 -->
     <div class="modal fade" id="loginModal" tabindex="-1">
         <div class="modal-dialog">
@@ -64,4 +67,5 @@
     </div>
 </body>
 <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+
 </html>
