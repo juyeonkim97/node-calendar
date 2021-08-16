@@ -2,9 +2,9 @@
   "name": "calendar",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node app.js"
   },
   "repository": {
@@ -31,5 +31,10 @@
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6",
+    "node-mocks-http": "^1.10.1",
+    "supertest": "^6.1.5"
   }
 }

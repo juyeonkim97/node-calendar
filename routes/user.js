@@ -1,8 +1,8 @@
-const express = require('express'),
-    crypto = require('crypto'),
-    passport = require('passport'),
-    router = express.Router(),
-    db = require('./database.js');
+const express = require('express');
+const crypto = require('crypto');
+const passport = require('passport');
+const router = express.Router();
+const db = require('./database.js');
 
 //회원가입 페이지 이동
 router.get('/join', (req, res) => {
@@ -65,7 +65,7 @@ router.post('/email-check', (req, res) => {
 });
 
 //회원가입 처리
-router.post('/join', (req, res, next) => {
+router.post('/join', (req, res) => {
     const {
         email,
         password,
@@ -93,7 +93,7 @@ router.post('/login',
 );
 
 //로그아웃
-router.get('/logout', function (req, res, next) {
+router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });

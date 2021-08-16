@@ -1,6 +1,6 @@
-const express = require('express'),
-    router = express.Router(),
-    db = require('./database.js');
+const express = require('express');
+const router = express.Router();
+const db = require('./database.js');
 
 //캘린더 추가
 router.post('/', (req, res) => {
@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
         //insert문의 id 받기
         const calendarId = result.insertId;
         param = [calendarId, userEmail];
-        db.query('INSERT INTO user_calendar(`calendar_id`,`user_email`) VALUES(?,?)', param, (err, next) => {
+        db.query('INSERT INTO user_calendar(`calendar_id`,`user_email`) VALUES(?,?)', param, (err) => {
             if (err) console.log(err);
             res.redirect('/')
         });
@@ -111,8 +111,5 @@ router.delete('/:calendarId', (req, res) => {
         })
     });
 })
-
-
-
 
 module.exports = router;

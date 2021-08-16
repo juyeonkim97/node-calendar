@@ -1,6 +1,6 @@
-const express = require('express'),
-    router = express.Router(),
-    db = require('./database.js');
+const express = require('express');
+const router = express.Router();
+const db = require('./database.js');
 
 //일정 추가
 router.post('/', (req, res) => {

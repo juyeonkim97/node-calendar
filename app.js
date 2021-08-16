@@ -1,19 +1,19 @@
-const express = require('express'), //웹 서버
-    indexRouter = require('./routes'),
-    userRouter = require('./routes/user'),
-    calendarRouter=require('./routes/calendar'),
-    eventRouter=require('./routes/event'),
-    mysql = require('mysql'),
-    flash = require('connect-flash'),
-    session = require('express-session'), // 세션 설정
-    passport = require('passport'),
-    passportConfig = require('./routes/passport');
+const express = require('express'); //웹 서버
+const indexRouter = require('./routes');
+const userRouter = require('./routes/user');
+const calendarRouter=require('./routes/calendar');
+const eventRouter=require('./routes/event');
+const mysql = require('mysql');
+const flash = require('connect-flash');
+const session = require('express-session'); // 세션 설정
+const passport = require('passport');
+const passportConfig = require('./routes/passport');
 
 
 const app = express()
 
 app.use
-app.use(express.json()); //밑에 줄까지 body-parser
+app.use(express.json()); //body-parser 대체
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public')); //static 폴더로 지정, images 경로를 /public/images라고 하지 않아도 됨
 app.use(express.static(__dirname + '/node_modules'));
