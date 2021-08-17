@@ -17,16 +17,16 @@ function createCalendar() {
     }
 }
 
-//캘린더 추가(구독)
-function addCalendar(calendarId) {
+//캘린더 구독
+function subscribeCalendar(calendarId) {
     console.log(calendarId)
     if(loginCheck()){
         $.ajax({
             method: 'POST',
-            url: '/user/calendar/' + calendarId,
+            url: '/subscription/' + calendarId,
             success: function (res) {
                 if (res.message === 'fail') {
-                    alert('이미 추가된 캘린더입니다.');
+                    alert('이미 구독 중인 캘린더입니다.');
                 } else {
                     alert('캘린더가 추가되었습니다.')
                 }
@@ -140,12 +140,12 @@ function deleteCalendar() {
     }     
 }
 
-//다른 사용자의 캘린더 삭제(구독취소)
+//캘린더 구독 취소
 function removeCalendar() {
-    if (confirm("캘린더를 삭제하시겠습니까?") == true) {
+    if (confirm("캘린더를 구독 취소하시겠습니까?") == true) {
         $.ajax({
             method: 'DELETE',
-            url: '/user/calendar/' + hiddenCalendarId.val(),
+            url: '/subscription/' + hiddenCalendarId.val(),
             success: function (response) {
                 if (response.result == 'redirect') {
                     //redirecting to main page from here.

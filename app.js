@@ -3,6 +3,7 @@ const indexRouter = require('./routes');
 const userRouter = require('./routes/user');
 const calendarRouter=require('./routes/calendar');
 const eventRouter=require('./routes/event');
+const subscriptionRouter=require('./routes/subscription');
 const mysql = require('mysql');
 const flash = require('connect-flash');
 const session = require('express-session'); // 세션 설정
@@ -46,6 +47,7 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/calendar', calendarRouter);
 app.use('/event',eventRouter);
+app.use('/subscription',subscriptionRouter);
 
 app.listen(3000, () => {
     console.debug('App listening on :3000');
