@@ -3,14 +3,15 @@ $(function () {
     $("#email").on("keyup", emailCheck);
     $("#pw2").on("keyup", passwordCheck);
 })
+
 function emailCheck() {
     const email = $("#email").val();
     const sendData = {
         "email": email
     }
     $.ajax({
-        method: 'POST',
-        url: '/user/email-check',
+        method: 'GET',
+        url: '/user/email-check/'+email,
         data: sendData,
         success: function (res) {
             if (res.message == 'fail') {

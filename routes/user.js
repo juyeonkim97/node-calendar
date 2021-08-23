@@ -8,7 +8,7 @@ const userController=require('../controllers/user')
 router.get('/join', userController.join);
 
 //회원가입 시 이메일 중복 체크
-router.post('/email-check', userController.checkEmail);
+router.get('/email-check/:email', userController.checkEmail);
 
 //회원가입 처리
 router.post('/join', userController.createUser);
