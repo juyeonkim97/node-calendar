@@ -1,6 +1,17 @@
-const db = require('../routes/database.js');
+const subscriptionModel=require('../models/subscription');
+//const db=require('../routes/database');
 
-// 구독 캘린더 목록
+// exports.subscribeCalendar=async (req, res) => {
+//     const calendarId = req.params.calendarId;
+//      const userEmail = res.locals.currentUser.email;
+//      const param = [userEmail, calendarId];
+//      const res=subscriptionModel.checkSubsription(param);
+//      if(res){
+//          res.send({message:'fail'});
+//      }else{
+         
+//      }
+//}
 
 // 캘린더 구독
 exports.subscribeCalendar=(req, res) => {

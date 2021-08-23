@@ -49,6 +49,4 @@ app.use('/calendar', calendarRouter);
 app.use('/event',eventRouter);
 app.use('/subscription',subscriptionRouter);
 
-app.listen(3000, () => {
-    console.debug('App listening on :3000');
-});
+module.exports = app;

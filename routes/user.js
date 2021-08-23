@@ -2,13 +2,13 @@ const express = require('express');
 const crypto = require('crypto');
 const passport = require('passport');
 const router = express.Router();
-const userController=require('../controllers/user')
+const userController=require('../controllers/user_v2')
 
 //회원가입 페이지 이동
 router.get('/join', userController.join);
 
 //회원가입 시 이메일 중복 체크
-router.post('/email-check', userController.checkEmail);
+router.get('/email-check', userController.checkEmail);
 
 //회원가입 처리
 router.post('/join', userController.createUser);
