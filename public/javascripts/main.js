@@ -44,6 +44,7 @@ $(document).ready(function () {
   calendar.render();
 });
 
+//로그인 했는지 안 했는지 체크해서 일정 수정 가능 여부 체크(26, 36라인)
 function loginCheck() {
   if (loginMsg.val() == "login") {
     return true;

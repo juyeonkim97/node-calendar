@@ -1,9 +1,10 @@
-//아이디 중복 확인
+//이메일, 비밀번호 중복 확인 이벤트 트리거
 $(function () {
     $("#email").on("keyup", emailCheck);
     $("#pw2").on("keyup", passwordCheck);
 })
 
+//이메일 중복확인
 function emailCheck() {
     const email = $("#email").val();
     const sendData = {

@@ -45,7 +45,7 @@
 				<ul class="list-group">
 					<li class="list-group-item" onclick="createCalendar()" style="cursor: pointer;">캘린더 추가</li>
 					<% if(isAuthenticated){ 
-		calendars.forEach(function(item){%>
+						calendars.forEach(function(item){%>
 					<li class="list-group-item">
 						<div class="form-check form-switch ">
 							<input class="form-check-input" type="checkbox" id="<%= item.calendar_id %>"

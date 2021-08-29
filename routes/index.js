@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
                 calendars: calendars[0],
                 myCalendars:myCalendars[0]
             });
-        } else {
+        } else { //로그인이 안 된 경우 테스트 캘린더를 띄워줌
             const calendars = await db.promise().query('SELECT * FROM calendar WHERE calendar_id in(45,46,52) order by title');
             res.render('index', {
                 calendars: calendars[0]
