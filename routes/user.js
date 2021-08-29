@@ -5,18 +5,18 @@ const router = express.Router();
 const userController=require('../controllers/user_v2')
 
 //회원가입 페이지 이동
-router.get('/join', userController.join);
+//router.get('/join', userController.join);
 
 //회원가입 시 이메일 중복 체크
-router.get('/email-check', userController.checkEmail);
+router.get('/email-check/:email', userController.checkEmail);
 
 //회원가입 처리
-router.post('/join', userController.createUser);
+//router.post('/join', userController.createUser);
 
 //로그인
-router.post('/login', userController.login);
+//router.post('/login', userController.login);
 
 //로그아웃
-router.get('/logout', userController.logout);
+//router.get('/logout', userController.logout);
 
 module.exports = router;

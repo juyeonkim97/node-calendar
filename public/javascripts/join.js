@@ -5,13 +5,9 @@ $(function () {
 })
 function emailCheck() {
     const email = $("#email").val();
-    const sendData = {
-        "email": email
-    }
     $.ajax({
-        method: 'POST',
-        url: '/user/email-check',
-        data: sendData,
+        method: 'GET',
+        url: '/user/email-check/'+email,
         success: function (res) {
             if (res.message == 'fail') {
                 $('#emailcheck').css('color', 'red');

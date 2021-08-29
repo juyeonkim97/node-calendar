@@ -9,7 +9,7 @@ exports.join=(req, res) => {
 
 // 회원가입 시 이메일 중복 체크
 exports.checkEmail=(req, res) => {
-    const email = req.body.email;
+    const email = req.params.email;
     var message = '';
     db.query('SELECT email FROM user WHERE email=?', email, (err, result) => {
         if (err) console.log(err)
