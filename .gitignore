@@ -104,5 +104,8 @@ dist
 .tern-port
 
 
-#database info
+# database info
 database.js
+
+# passport 
+passport/

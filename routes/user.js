@@ -13,8 +13,14 @@ router.get('/email-check/:email', userController.checkEmail);
 //회원가입 처리
 router.post('/join', userController.createUser);
 
-//로그인
+// 로그인
 router.post('/login', userController.login);
+
+// 카카오 로그인
+router.get('/kakao',userController.kakao);
+
+// 카카오 인증 완료
+router.get('/oauth',userController.oauth);
 
 //로그아웃
 router.get('/logout', userController.logout);

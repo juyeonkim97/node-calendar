@@ -8,7 +8,7 @@ const mysql = require('mysql');
 const flash = require('connect-flash');
 const session = require('express-session'); // 세션 설정
 const passport = require('passport');
-const passportConfig = require('./routes/passport');
+const passportConfig = require('./passport');
 
 
 const app = express()
@@ -29,12 +29,13 @@ app.use(session({
     saveUninitialized: false
 })); // 세션 활성화
 app.use(passport.initialize()); // passport 구동, 초기화
-app.use(passport.session()); // 세션 연결
+app.use(passport.session()); // req.session 객체에 passpost
 
 app.use(flash()); //위치 중요, session 연결한 다음에 위치
 
 //공통로직 부분
 app.use(function (req, res, next) { 
+    console.log('여기는 app',req)
     res.locals.errorMsg = req.flash('errorMsg');
     res.locals.isAuthenticated = req.isAuthenticated();
     res.locals.currentUser = req.user;
