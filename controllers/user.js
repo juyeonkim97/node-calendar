@@ -76,10 +76,10 @@ exports.kakao = passport.authenticate('kakao-login', {
 
 // 카카오 인증 완료
 exports.oauth = passport.authenticate('kakao-login', {
+    successRedirect: '/',
     failureRedirect: '/',
-}), (req, res) => {
-    res.redirect('http://localhost:3000'); // 다 완료되면 리다이렉트 URL
-}
+    failureFlash: true
+})
 
 // 로그아웃
 exports.logout = (req, res) => {
